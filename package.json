@@ -1,0 +1,26 @@
+{
+  "name": "zeroday-detection",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "lint": "eslint eslint.config.js vite.config.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "idb": "8.0.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "eslint": "10.11.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.2",
+    "vite-plugin-pwa": "1.3.0",
+    "vitest": "5.0.3"
+  }
+}
