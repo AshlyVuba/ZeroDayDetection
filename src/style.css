@@ -1,0 +1,54 @@
+:root {
+  color: #f5f5f4;
+  background: #0c0a09;
+  font-family: system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-width: 20rem;
+  min-height: 100vh;
+  margin: 0;
+}
+
+main {
+  box-sizing: border-box;
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.brand {
+  color: #fb923c;
+  font-weight: 700;
+}
+
+h1 {
+  max-width: 12ch;
+  font-size: clamp(2.5rem, 9vw, 4.5rem);
+  line-height: 1;
+}
+
+.connection-status {
+  border-left: 0.25rem solid #f97316;
+  padding-left: 0.75rem;
+}
+
+.update-notice {
+  margin-top: 2rem;
+  border: 1px solid #f97316;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+button {
+  border: 0;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  color: #0c0a09;
+  background: #fb923c;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
