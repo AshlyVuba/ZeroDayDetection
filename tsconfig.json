@@ -9,5 +9,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["src/engine/**/*.ts", "tests/**/*.ts"]
+  "include": ["src/engine/**/*.ts", "src/storage/**/*.ts", "tests/**/*.ts"]
 }
