@@ -6,6 +6,7 @@ import {
   type LexiconLanguage,
   type ProductionLexiconPhrase,
 } from "../lexicon";
+import { matchLinkSignals } from "./links";
 
 const ZERO_WIDTH_CHARACTERS = /[\u180e\u200b-\u200d\u2060\ufeff]/gu;
 const MARKS = /\p{M}/gu;
@@ -376,6 +377,10 @@ export function matchMessageSignals(text: string, lang?: Lang): Signal[] {
     if (!signals.has(signal.id) || language === preferredLanguage) {
       signals.set(signal.id, signal);
     }
+  }
+
+  for (const signal of matchLinkSignals(text)) {
+    signals.set(signal.id, signal);
   }
   return [...signals.values()];
 }
