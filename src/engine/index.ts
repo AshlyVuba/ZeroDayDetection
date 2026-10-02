@@ -26,6 +26,18 @@ export {
   normalizeRecipientId,
   toMinorUnits,
 } from "./transactionHelpers";
+export {
+  ANALYSIS_FAILURE_MESSAGE,
+  runAnalysis,
+} from "./worker-bridge";
+export type {
+  AnalysisKind,
+  AnalysisOutcome,
+  AnalysisPayloadByKind,
+  AnalysisRequest,
+  MessageAnalysisPayload,
+  TransactionAnalysisPayload,
+} from "./worker-bridge";
 export type { Explanation } from "./explain";
 export type { NormalizedMessage, Rule } from "./message";
 export type { Lang, RiskBand, RiskResult, Signal, Transaction } from "./types";
