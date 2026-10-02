@@ -1,5 +1,11 @@
 import { MESSAGE_SCORING_CONFIG } from "./config";
 import type { Lang, RiskResult, Signal } from "./types";
+import {
+  PRODUCTION_LEXICON_BY_LANGUAGE,
+  REQUIRED_SIGNAL_IDS,
+  type LexiconLanguage,
+  type ProductionLexiconPhrase,
+} from "../lexicon";
 
 const ZERO_WIDTH_CHARACTERS = /[\u180e\u200b-\u200d\u2060\ufeff]/gu;
 const MARKS = /\p{M}/gu;
@@ -136,6 +142,129 @@ function firstEvidence(
   return null;
 }
 
+function normalizeLexiconText(text: string): string {
+  return text
+    .normalize("NFKC")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(MARKS, "")
+    .replace(WHITESPACE, " ")
+    .trim();
+}
+
+function compileLexiconPhrase(phrase: ProductionLexiconPhrase): RegExp | null {
+  const text = normalizeLexiconText(phrase.text);
+  if (text.length === 0 || (phrase.form === "stem" && /\s/u.test(text))) {
+    return null;
+  }
+
+  const escaped = text.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+  const pattern =
+    phrase.form === "stem"
+      ? escaped
+      : String.raw`(?<![\p{L}\p{N}_])${escaped}(?![\p{L}\p{N}_])`;
+  return new RegExp(pattern, "u");
+}
+
+interface CompiledLexiconPhrase {
+  pattern: RegExp;
+}
+
+type CompiledLexiconByLanguage = Record<
+  LexiconLanguage,
+  Record<(typeof REQUIRED_SIGNAL_IDS)[number], CompiledLexiconPhrase[]>
+>;
+
+const COMPILED_PRODUCTION_LEXICON = Object.fromEntries(
+  Object.entries(PRODUCTION_LEXICON_BY_LANGUAGE).map(
+    ([language, signalGroups]) => [
+      language,
+      Object.fromEntries(
+        REQUIRED_SIGNAL_IDS.map((signalId) => [
+          signalId,
+          signalGroups[signalId]
+            .map((phrase) => {
+              const pattern = compileLexiconPhrase(phrase);
+              return pattern === null ? null : { pattern };
+            })
+            .filter(
+              (compiled): compiled is CompiledLexiconPhrase =>
+                compiled !== null,
+            ),
+        ]),
+      ),
+    ],
+  ),
+) as CompiledLexiconByLanguage;
+
+const LEXICON_LANGUAGE_ORDER: LexiconLanguage[] = [
+  "sn",
+  "nd",
+  "zu",
+  "pt",
+  "sw",
+  "en-code-switched",
+];
+
+const ACTIVE_LEXICON_LANGUAGES = LEXICON_LANGUAGE_ORDER.filter((language) =>
+  REQUIRED_SIGNAL_IDS.some(
+    (signalId) =>
+      COMPILED_PRODUCTION_LEXICON[language][signalId].length > 0,
+  ),
+);
+
+function preferredLexiconLanguage(lang?: Lang): LexiconLanguage | undefined {
+  return lang === "en" ? "en-code-switched" : lang;
+}
+
+interface LexiconSignalMatch {
+  signal: Signal;
+  language: LexiconLanguage;
+}
+
+function matchVerifiedLexiconSignals(
+  normalized: NormalizedMessage,
+  original: string,
+  selectedLanguage?: LexiconLanguage,
+): LexiconSignalMatch[] {
+  if (ACTIVE_LEXICON_LANGUAGES.length === 0) return [];
+
+  const languageOrder = selectedLanguage
+    ? [
+        selectedLanguage,
+        ...ACTIVE_LEXICON_LANGUAGES.filter(
+          (language) => language !== selectedLanguage,
+        ),
+      ]
+    : ACTIVE_LEXICON_LANGUAGES;
+  const matches = new Map<
+    (typeof REQUIRED_SIGNAL_IDS)[number],
+    LexiconSignalMatch
+  >();
+
+  for (const language of languageOrder) {
+    for (const signalId of REQUIRED_SIGNAL_IDS) {
+      if (matches.has(signalId)) continue;
+      for (const { pattern } of COMPILED_PRODUCTION_LEXICON[language][
+        signalId
+      ]) {
+        const evidence = firstEvidence([pattern], normalized, original);
+        if (evidence === null) continue;
+        matches.set(signalId, {
+          language,
+          signal: {
+            id: signalId,
+            weight: MESSAGE_SCORING_CONFIG.signalWeights[signalId],
+            evidence,
+          },
+        });
+        break;
+      }
+    }
+  }
+  return [...matches.values()];
+}
+
 function rule(
   id: Rule["id"],
   patterns: readonly RegExp[],
@@ -223,14 +352,15 @@ export const MESSAGE_RULES: readonly Rule[] = [
   };
 });
 
-export function matchMessageSignals(text: string): Signal[] {
+export function matchMessageSignals(text: string, lang?: Lang): Signal[] {
   const normalized = normalizeMessage(text);
-  const signals: Signal[] = [];
+  const preferredLanguage = preferredLexiconLanguage(lang);
+  const signals = new Map<string, Signal>();
 
   for (const messageRule of MESSAGE_RULES) {
     const evidence = messageRule.test(normalized, text);
     if (evidence !== null) {
-      signals.push({
+      signals.set(messageRule.id, {
         id: messageRule.id,
         weight: messageRule.weight,
         evidence,
@@ -238,13 +368,22 @@ export function matchMessageSignals(text: string): Signal[] {
     }
   }
 
-  return signals;
+  for (const { language, signal } of matchVerifiedLexiconSignals(
+    normalized,
+    text,
+    preferredLanguage,
+  )) {
+    if (!signals.has(signal.id) || language === preferredLanguage) {
+      signals.set(signal.id, signal);
+    }
+  }
+  return [...signals.values()];
 }
 
-export function analyseMessage(text: string, _lang?: Lang): RiskResult {
+export function analyseMessage(text: string, lang?: Lang): RiskResult {
   return {
     score: 0,
     band: "low",
-    signals: matchMessageSignals(text),
+    signals: matchMessageSignals(text, lang),
   };
 }
