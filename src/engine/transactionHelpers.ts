@@ -1,4 +1,8 @@
-import { MINOR_UNITS_PER_MAJOR_UNIT } from "./config";
+import {
+  MINOR_UNITS_PER_MAJOR_UNIT,
+  ODD_HOUR_END,
+  ODD_HOUR_START,
+} from "./config";
 
 export function normalizeRecipientId(recipientId: string): string {
   const trimmedId = recipientId.trim();
@@ -78,7 +82,7 @@ export function isOddHour(timestamp: number): boolean {
       .find((part) => part.type === "hour")?.value,
   );
 
-  return hour < 6 || hour >= 22;
+  return hour < ODD_HOUR_END || hour >= ODD_HOUR_START;
 }
 
 type SupportedCurrency = keyof typeof MINOR_UNITS_PER_MAJOR_UNIT;

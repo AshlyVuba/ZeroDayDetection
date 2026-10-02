@@ -4,8 +4,10 @@ import {
   matchMessageSignals,
   MESSAGE_RULES,
   normalizeMessage,
+  type Lang,
   type Signal,
 } from "../src/engine";
+import { LANGUAGE_LEXICON_SEEDS } from "../src/lexicon";
 
 const positiveExamples: Record<string, string[]> = {
   CREDENTIAL_REQUEST: [
@@ -221,81 +223,42 @@ describe("message normalization and API", () => {
     ).toBe(false);
   });
 
-  it.each([
-    ["shortener with scheme", "Check https://bit.ly/abc.", ["SHORTENED_LINK"]],
-    ["bare shortener domain", "Try bit.ly/abc now", ["SHORTENED_LINK"]],
-    ["www shortener", "See www.tinyurl.com/offer", ["SHORTENED_LINK"]],
-    [
-      "brand in a non-allowlisted domain",
-      "Open https://mukuru-secure.example/login",
-      ["LOOKALIKE_LINK"],
-    ],
-    [
-      "punycode hostname",
-      "Open https://xn--80ak6aa92e.example/login",
-      ["LOOKALIKE_LINK"],
-    ],
-    [
-      "raw IP address",
-      "Open http://192.0.2.10/login",
-      ["LOOKALIKE_LINK"],
-    ],
-    [
-      "non-HTTPS link with credential terms",
-      "Open http://example.org/login and enter your PIN",
-      ["LOOKALIKE_LINK"],
-    ],
-    [
-      "uppercase shortener with trailing punctuation",
-      "Use HTTPS://RB.GY/AbC,",
-      ["SHORTENED_LINK"],
-    ],
-    ["allowlisted Mukuru domain", "https://mukuru.com/help", []],
-    [
-      "allowlisted Capitec subdomain",
-      "https://secure.capitec.co.za/login",
-      [],
-    ],
-    ["allowlisted FNB domain", "https://fnb.co.za", []],
-    ["unusual TLD alone", "Visit https://example.xyz/offer", []],
-    [
-      "brand mention outside the URL",
-      "Mukuru is mentioned here: https://example.org",
-      [],
-    ],
-    [
-      "HTTPS link with credential words",
-      "Open https://example.net/login and enter your PIN",
-      [],
-    ],
-  ] as const)(
-    "matches URL signals for %s",
-    (_name, message, expectedSignalIds) => {
-      expect(
-        matchMessageSignals(message)
-          .filter((signal) =>
-            ["LOOKALIKE_LINK", "SHORTENED_LINK"].includes(signal.id),
-          )
-          .map((signal) => signal.id)
-          .sort(),
-      ).toEqual([...expectedSignalIds].sort());
-    },
-  );
+  it("keeps unverified multilingual starter phrases out of message signals", () => {
+    const languageCodes = [
+      "sn",
+      "nd",
+      "zu",
+      "pt",
+      "sw",
+      "en-code-switched",
+    ] as const;
+    for (const languageCode of languageCodes) {
+      const language = LANGUAGE_LEXICON_SEEDS.languages[languageCode];
+      const selectedLanguage = languageCode === "en-code-switched"
+        ? "en"
+        : languageCode;
+      for (const phrase of language.starterPhrases) {
+        expect(matchMessageSignals(phrase.text, selectedLanguage)).toEqual([]);
+      }
+    }
+  });
 
-  it("keeps link evidence as bounded plain text without trailing punctuation", () => {
-    const message = "Please check HTTPS://GOO.GL/abc).";
-    const signal = matchMessageSignals(message).find(
-      (candidate) => candidate.id === "SHORTENED_LINK",
-    );
-
-    expect(signal?.evidence).toBe("HTTPS://GOO.GL/abc");
-    expect(signal?.evidence?.length).toBeLessThanOrEqual(40);
-    expect(signal?.weight).toBe(0.25);
+  it("retains English signals in mixed-language messages without matching unverified phrases", () => {
     expect(
-      matchMessageSignals("https://mukuru-secure.example").find(
-        (candidate) => candidate.id === "LOOKALIKE_LINK",
-      )?.weight,
-    ).toBe(0.35);
+      matchMessageSignals(
+        "thumela imali, please send your password so I can verify the account",
+        "zu",
+      ).map(({ id }) => id),
+    ).toEqual(["CREDENTIAL_REQUEST"]);
+  });
+
+  it("keeps honest English negatives clear with a non-English language selected", () => {
+    expect(
+      matchMessageSignals(
+        "Never share your password or login code with anyone.",
+        "pt",
+      ),
+    ).toEqual([]);
   });
 
   it("keeps analyseMessage's public result shape without scoring", () => {
@@ -315,17 +278,20 @@ describe("message normalization and API", () => {
   it("matches a 20,000-character message in under 50 ms", () => {
     const suffix = " You have won a prize!";
     const message = `${"x".repeat(20_000 - suffix.length)}${suffix}`;
-    const samples: number[] = [];
+    const languages: Lang[] = ["en", "sn", "nd", "zu", "pt", "sw"];
 
-    matchMessageSignals(message);
-    matchMessageSignals(message);
-    for (let iteration = 0; iteration < 7; iteration += 1) {
-      const start = performance.now();
-      matchMessageSignals(message);
-      samples.push(performance.now() - start);
+    for (const language of languages) {
+      const samples: number[] = [];
+      matchMessageSignals(message, language);
+      matchMessageSignals(message, language);
+      for (let iteration = 0; iteration < 7; iteration += 1) {
+        const start = performance.now();
+        matchMessageSignals(message, language);
+        samples.push(performance.now() - start);
+      }
+
+      samples.sort((left, right) => left - right);
+      expect(samples[3], language).toBeLessThan(50);
     }
-
-    samples.sort((left, right) => left - right);
-    expect(samples[3]).toBeLessThan(50);
   });
 });

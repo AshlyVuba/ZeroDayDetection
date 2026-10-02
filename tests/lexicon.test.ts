@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   LANGUAGE_LEXICON_SEEDS,
+  PRODUCTION_LEXICON_BY_LANGUAGE,
   REQUIRED_SIGNAL_IDS,
+  UNVERIFIED_LEXICON_BY_LANGUAGE,
   isLanguageLexiconSeedFile,
   parseLanguageLexiconSeedFile,
   selectProductionPhrases,
@@ -25,6 +27,39 @@ describe("language lexicon seeds", () => {
       expect(language.starterPhrases.every(
         (phrase) => phrase.status === "unverified" && phrase.verifier === "",
       )).toBe(true);
+    }
+  });
+
+  it("loads every language lexicon grouped by signal ID", () => {
+    const languageCodes = [
+      "sn",
+      "nd",
+      "zu",
+      "pt",
+      "sw",
+      "en-code-switched",
+    ] as const;
+
+    expect(Object.keys(PRODUCTION_LEXICON_BY_LANGUAGE).sort()).toEqual(
+      [...languageCodes].sort(),
+    );
+    expect(Object.keys(UNVERIFIED_LEXICON_BY_LANGUAGE).sort()).toEqual(
+      [...languageCodes].sort(),
+    );
+
+    for (const languageCode of languageCodes) {
+      expect(Object.keys(PRODUCTION_LEXICON_BY_LANGUAGE[languageCode]).sort())
+        .toEqual([...REQUIRED_SIGNAL_IDS].sort());
+      expect(Object.keys(UNVERIFIED_LEXICON_BY_LANGUAGE[languageCode]).sort())
+        .toEqual([...REQUIRED_SIGNAL_IDS].sort());
+      expect(
+        Object.values(PRODUCTION_LEXICON_BY_LANGUAGE[languageCode]).flat(),
+      ).toEqual([]);
+      expect(
+        Object.values(UNVERIFIED_LEXICON_BY_LANGUAGE[languageCode])
+          .flat()
+          .every((phrase) => phrase.status === "unverified"),
+      ).toBe(true);
     }
   });
 

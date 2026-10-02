@@ -66,6 +66,18 @@ export interface LanguageLexiconSeedFile {
   languages: Record<LexiconLanguage, LanguageLexiconSeed>;
 }
 
+export type GroupedLanguageLexicon<Phrase extends LexiconPhrase = LexiconPhrase> = Record<
+  LexiconSignalId,
+  Phrase[]
+>;
+
+export type GroupedLanguageLexicons<
+  Phrase extends LexiconPhrase = LexiconPhrase,
+> = Record<
+  LexiconLanguage,
+  GroupedLanguageLexicon<Phrase>
+>;
+
 const LANGUAGE_CODES: LexiconLanguage[] = [
   "sn",
   "nd",
@@ -113,9 +125,14 @@ function isLanguageSeed(value: unknown): value is LanguageLexiconSeed {
       value.speakerReviewer.name === null) &&
     typeof value.speakerAuthoredPhrasesRequired === "boolean" &&
     Array.isArray(value.starterPhrases) &&
-    value.starterPhrases.every(isLexiconPhrase) &&
+    value.starterPhrases.every(
+      (phrase) => isLexiconPhrase(phrase) && phrase.status === "unverified",
+    ) &&
     Array.isArray(value.productionPhrases) &&
     value.productionPhrases.every(isProductionPhrase) &&
+    (value.productionPhrases.length === 0 ||
+      (typeof value.speakerReviewer.name === "string" &&
+        value.speakerReviewer.name.trim().length > 0)) &&
     typeof value.coverage.minimumVerifiedPhraseCount === "number" &&
     typeof value.coverage.verifiedPhraseCount === "number" &&
     typeof value.coverage.remainingVerifiedPhraseCount === "number" &&
@@ -186,3 +203,42 @@ export function selectProductionPhrases(
 }
 
 export const LANGUAGE_LEXICON_SEEDS = parseLanguageLexiconSeedFile(seeds);
+
+function groupPhrasesBySignal<Phrase extends LexiconPhrase>(
+  phrases: readonly Phrase[],
+): GroupedLanguageLexicon<Phrase> {
+  const grouped = Object.fromEntries(
+    REQUIRED_SIGNAL_IDS.map((signalId) => [signalId, [] as Phrase[]]),
+  ) as GroupedLanguageLexicon<Phrase>;
+
+  for (const phrase of phrases) {
+    if (isSignalId(phrase.signalId)) grouped[phrase.signalId].push(phrase);
+  }
+  return grouped;
+}
+
+function buildLanguageGroups<Phrase extends LexiconPhrase>(
+  selectPhrases: (seed: LanguageLexiconSeed) => Phrase[],
+): GroupedLanguageLexicons<Phrase> {
+  const grouped = {} as GroupedLanguageLexicons<Phrase>;
+  for (const languageCode of LANGUAGE_CODES) {
+    grouped[languageCode] = groupPhrasesBySignal(
+      selectPhrases(LANGUAGE_LEXICON_SEEDS.languages[languageCode]),
+    );
+  }
+  return grouped;
+}
+
+export const PRODUCTION_LEXICON_BY_LANGUAGE =
+  buildLanguageGroups<ProductionLexiconPhrase>((seed) =>
+    seed.speakerReviewer.name?.trim()
+      ? selectProductionPhrases(seed.productionPhrases)
+      : [],
+  );
+
+export const UNVERIFIED_LEXICON_BY_LANGUAGE =
+  buildLanguageGroups<LexiconPhrase>((seed) =>
+    [...seed.starterPhrases, ...seed.productionPhrases].filter(
+      (phrase) => phrase.status === "unverified",
+    ),
+  );
