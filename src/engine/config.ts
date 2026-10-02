@@ -1,6 +1,9 @@
 export const SPIKE_MULTIPLIER = 3;
+export const MIN_SPIKE_HISTORY = 3;
 export const RAPID_COUNT = 3;
 export const RAPID_MINUTES = 60;
+export const ODD_HOUR_START = 22;
+export const ODD_HOUR_END = 6;
 
 // Transaction.amount stays in major units; thresholds below use integer minor units.
 export const MINOR_UNITS_PER_MAJOR_UNIT = {
@@ -17,6 +20,17 @@ export const FEE_LIKE_SETTINGS = {
   currency: "ZAR",
   roundToMinorUnits: 5_000, // R50.00
   maxMinorUnits: 150_000, // R1,500.00
+} as const;
+
+export const TRANSACTION_SCORING_CONFIG = {
+  signalWeights: {
+    NEW_RECIPIENT: 0.2,
+    AMOUNT_SPIKE: 0.35,
+    FIRST_LARGE: 0.35,
+    RAPID_REPEAT: 0.3,
+    FEE_LIKE_AMOUNT: 0.2,
+    ODD_HOUR: 0.15,
+  },
 } as const;
 
 export const MESSAGE_SCORING_CONFIG = {
