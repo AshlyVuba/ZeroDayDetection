@@ -17,4 +17,13 @@ export const FEE_LIKE_SETTINGS = {
   currency: "ZAR",
   roundToMinorUnits: 5_000, // R50.00
   maxMinorUnits: 150_000, // R1,500.00
+export const MESSAGE_SCORING_CONFIG = {
+  bands: {
+    lowMax: 24,
+    mediumMax: 59,
+  },
+  signalWeight: {
+    min: 0,
+    max: 1,
+  },
 } as const;

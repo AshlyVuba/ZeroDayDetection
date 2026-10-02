@@ -1,5 +1,6 @@
 export { explain } from "./explain";
 export { analyseMessage } from "./message";
+export { scoreSignals } from "./score";
 export { analyseTransaction } from "./transaction";
 export {
   FEE_LIKE_SETTINGS,

@@ -1,9 +1,14 @@
 export default [
   {
-    files: ["eslint.config.js", "vite.config.js"],
+    files: ["eslint.config.js", "vite.config.js", "src/main.jsx", "src/pwa.js"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
+      globals: {
+        document: "readonly",
+        navigator: "readonly",
+        window: "readonly",
+      },
     },
     rules: {
       "no-undef": "error",
