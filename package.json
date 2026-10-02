@@ -7,8 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "validate:i18n": "node scripts/validate-i18n.mjs",
     "test": "vitest run",
-    "lint": "eslint eslint.config.js vite.config.js",
+    "lint": "eslint eslint.config.js vite.config.js src/main.jsx src/pwa.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
