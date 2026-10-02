@@ -65,6 +65,9 @@
   },
   "ui": {
     "appName": "ZeroDay Detection",
+    "languageLabel": "Ulimi",
+    "betaLabel": "Beta",
+    "textUnavailable": "Umbhalo awutholakali.",
     "messageTab": "Hlola umlayezo",
     "paymentTab": "Hlola inkokhelo",
     "messageLabel": "Umbhalo womlayezo",

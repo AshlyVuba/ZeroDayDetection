@@ -1,4 +1,5 @@
 import React from "react";
+import LanguageSelector from "./LanguageSelector.jsx";
 
 const actions = [
   { label: "Check a message", icon: "01" },
@@ -10,6 +11,9 @@ export default function Home({
   offlineReady = false,
   updateAvailable = false,
   refresh,
+  language = "en",
+  onLanguageChange = () => {},
+  t,
 }) {
   return (
     <div className="home-shell">
@@ -20,12 +24,11 @@ export default function Home({
           </span>
           <span>ZeroDay Detection</span>
         </a>
-        <span className="language-chip" aria-label="Language: English">
-          English
-          <span className="language-chevron" aria-hidden="true">
-            ▾
-          </span>
-        </span>
+        <LanguageSelector
+          language={language}
+          onChange={onLanguageChange}
+          t={t}
+        />
       </header>
 
       <main className="home-main" aria-labelledby="home-title">
