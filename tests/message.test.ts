@@ -205,6 +205,14 @@ describe("message normalization and API", () => {
     });
   });
 
+  it("normalizes plain ASCII whitespace while keeping evidence source offsets", () => {
+    expect(normalizeMessage(" \tFOO\r\n BAR  ")).toEqual({
+      text: "foo bar",
+      accentStripped: "foo bar",
+      sourceIndices: [2, 3, 4, 5, 8, 9, 10],
+    });
+  });
+
   it("keeps original text in bounded evidence after normalization", () => {
     const message = "ＰＡＹ R450 registration fee before starting.";
     const signal = matchMessageSignals(message).find(

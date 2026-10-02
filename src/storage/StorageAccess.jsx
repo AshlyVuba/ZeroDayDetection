@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import "./storage-access.css";
 
-export default function StorageAccess({ session }) {
+export default function StorageAccess({
+  session,
+  onStateChange = () => {},
+  onError = () => {},
+  externalError = "",
+}) {
   const [state, setState] = useState(null);
   const [pin, setPin] = useState("");
   const [confirmation, setConfirmation] = useState("");
@@ -16,10 +21,14 @@ export default function StorageAccess({ session }) {
         if (active) {
           setState(nextState);
           setError("");
+          onStateChange(nextState);
+          onError("");
         }
       } catch (cause) {
         if (active) {
-          setError(cause instanceof Error ? cause.message : "Unable to read storage.");
+          const message = cause instanceof Error ? cause.message : "Unable to read storage.";
+          setError(message);
+          onError(message);
         }
       }
     };
@@ -41,18 +50,22 @@ export default function StorageAccess({ session }) {
       window.removeEventListener("focus", refreshOnReturn);
       document.removeEventListener("visibilitychange", refreshOnReturn);
     };
-  }, [session]);
+  }, [session, onError, onStateChange]);
 
   async function run(action) {
     setBusy(true);
     setError("");
     try {
       await action();
-      setState(await session.getState());
+      const nextState = await session.getState();
+      setState(nextState);
+      onStateChange(nextState);
+      onError("");
       setPin("");
       setConfirmation("");
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Storage action failed.");
+      onError(cause instanceof Error ? cause.message : "Storage action failed.");
     } finally {
       setBusy(false);
     }
@@ -78,8 +91,17 @@ export default function StorageAccess({ session }) {
   if (state === null) {
     return (
       <section className="storage-access" aria-live="polite">
-        <p>Loading secure storage…</p>
-        {error && <p role="alert">{error}</p>}
+        <p>Checking private storage…</p>
+        {(error || externalError) && <p role="alert">{error || externalError}</p>}
+        {(error || externalError) && (
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => void run(() => session.startMemoryOnly())}
+          >
+            Continue in memory-only mode (no saved data)
+          </button>
+        )}
       </section>
     );
   }
@@ -134,9 +156,18 @@ export default function StorageAccess({ session }) {
             </button>
           )}
           {state === "locked" && (
-            <button type="button" disabled={busy} onClick={deleteAll}>
-              Delete all data
-            </button>
+            <>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => void run(() => session.startMemoryOnly())}
+              >
+                Continue in memory-only mode (saved data stays locked)
+              </button>
+              <button type="button" disabled={busy} onClick={deleteAll}>
+                Delete all data
+              </button>
+            </>
           )}
         </>
       ) : state === "unlocked" ? (
@@ -172,7 +203,7 @@ export default function StorageAccess({ session }) {
           </button>
         </>
       )}
-      {error && <p role="alert">{error}</p>}
+      {(error || externalError) && <p role="alert">{error || externalError}</p>}
     </section>
   );
 }

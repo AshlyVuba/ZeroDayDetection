@@ -117,7 +117,8 @@ a {
 }
 
 .welcome-panel {
-  max-width: 46rem;
+  width: 100%;
+  max-width: 52rem;
   padding: clamp(1.25rem, 5vw, 3.5rem);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
@@ -169,11 +170,21 @@ h1 {
   background: var(--color-orange);
   color: var(--color-ink);
   text-align: left;
-  cursor: not-allowed;
+  cursor: pointer;
 }
 
-.action-button:disabled {
-  opacity: 1;
+.action-button:hover {
+  background: var(--color-orange-deep);
+}
+
+.action-button:focus-visible,
+.flow-panel button:focus-visible,
+.flow-form input:focus-visible,
+.flow-form textarea:focus-visible,
+.flow-form select:focus-visible,
+.storage-status button:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
 }
 
 .action-icon {
@@ -210,6 +221,171 @@ h1 {
   margin: var(--space-3) 0 0;
   color: var(--color-ink-muted);
   font-size: var(--text-sm);
+}
+
+.flow-panel {
+  width: 100%;
+  max-width: 52rem;
+  padding: clamp(1.25rem, 5vw, 3.5rem);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+}
+
+.flow-panel h1 {
+  max-width: none;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+}
+
+.flow-panel h2 {
+  margin-top: 0;
+}
+
+.back-button {
+  min-height: 48px;
+  margin-bottom: var(--space-4);
+  padding-inline: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.flow-form {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.flow-form label {
+  font-weight: 750;
+}
+
+.flow-form input,
+.flow-form textarea,
+.flow-form select {
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  color: var(--color-ink);
+  font: inherit;
+}
+
+.flow-form textarea {
+  min-height: 10rem;
+  resize: vertical;
+}
+
+.flow-form button,
+.flow-panel > button:not(.back-button),
+.storage-status button {
+  min-height: 48px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-ink);
+  border-radius: var(--radius-sm);
+  background: var(--color-orange);
+  color: var(--color-ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.flow-form button:disabled,
+.flow-panel button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.amount-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 7rem;
+  gap: var(--space-2);
+}
+
+.privacy-note,
+.risk-link,
+.storage-status {
+  margin-block: var(--space-4);
+  color: var(--color-ink-muted);
+}
+
+.storage-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line);
+}
+
+.storage-status p {
+  flex: 1 1 16rem;
+  margin: 0;
+}
+
+.result-card,
+.history-panel {
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  border: 1px solid var(--color-line);
+  border-left: 0.35rem solid var(--color-ink-muted);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+}
+
+.result-card h2 {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+.result-card h3 {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: var(--text-base);
+}
+
+.result-card ul,
+.history-panel ul {
+  padding-left: 1.25rem;
+}
+
+.risk-high {
+  border-left-color: #b42318;
+}
+
+.risk-medium {
+  border-left-color: #b54708;
+}
+
+.risk-low {
+  border-left-color: #067647;
+}
+
+.risk-band {
+  font-weight: 850;
+}
+
+.history-panel li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.flow-error {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid #b42318;
+  border-radius: var(--radius-sm);
+  color: #b42318;
 }
 
 .offline-banner {
@@ -281,11 +457,6 @@ h1 {
     grid-template-columns: 2.75rem minmax(0, 1fr) 1.5rem;
   }
 
-  .coming-soon {
-    grid-column: 2;
-    justify-self: start;
-  }
-
   .action-arrow {
     grid-column: 3;
     grid-row: 1 / span 2;
@@ -304,13 +475,7 @@ h1 {
     height: 2rem;
   }
 
-  .coming-soon {
-    grid-column: 2;
-    justify-self: start;
-  }
-
   .action-arrow {
     grid-column: 3;
-    grid-row: 1 / span 2;
   }
 }

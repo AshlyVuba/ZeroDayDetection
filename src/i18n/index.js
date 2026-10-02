@@ -5,6 +5,7 @@ import shona from "./sn.json";
 import swahili from "./sw.json";
 import zulu from "./zu.json";
 import reviewStatus from "./review-status.json";
+import { explain } from "../engine/explain.ts";
 
 export const LANGUAGE_NAMES = Object.freeze({
   en: "English",
@@ -103,6 +104,54 @@ export function t(key, vars = {}, language = "en") {
 
 export function createTranslator(language, dictionary = catalogs[normalizeLanguage(language)]) {
   return (key, vars = {}) => translate(key, vars, dictionary);
+}
+
+export function getResultGuidance(result, language = "en") {
+  const catalog = catalogs[normalizeLanguage(language)];
+  const fallback = catalogs.en;
+  const reasons = result.signals.flatMap((signal) => {
+    const reason =
+      lookup(catalog, `reason.${signal.id}`) ??
+      lookup(fallback, `reason.${signal.id}`);
+    if (reason === undefined) return [];
+    return [
+      signal.evidence === undefined
+        ? reason
+        : `${reason} Evidence: ${signal.evidence}`,
+    ];
+  });
+  const localizedSteps = Array.isArray(
+    lookupArray(catalog, `steps.${result.scamType ?? ""}`),
+  )
+    ? lookupArray(catalog, `steps.${result.scamType ?? ""}`)
+    : undefined;
+  const englishSteps = Array.isArray(
+    lookupArray(fallback, `steps.${result.scamType ?? ""}`),
+  )
+    ? lookupArray(fallback, `steps.${result.scamType ?? ""}`)
+    : undefined;
+  const nextSteps =
+    localizedSteps ?? englishSteps ?? explain(result, "en").nextSteps;
+  const headline =
+    result.band === "high"
+      ? "Pause. Do not pay or share codes yet."
+      : result.band === "medium"
+        ? "Pause and check this request."
+        : "No clear warning signs were found.";
+  return { headline, reasons, nextSteps };
+}
+
+function lookupArray(dictionary, key) {
+  let value = dictionary;
+  for (const part of key.split(".")) {
+    if (value === null || typeof value !== "object" || !Object.hasOwn(value, part)) {
+      return undefined;
+    }
+    value = value[part];
+  }
+  return Array.isArray(value) && value.every((item) => typeof item === "string")
+    ? value
+    : undefined;
 }
 
 export function isBetaLanguage(language) {
