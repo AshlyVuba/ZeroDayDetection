@@ -17,10 +17,28 @@ export const FEE_LIKE_SETTINGS = {
   currency: "ZAR",
   roundToMinorUnits: 5_000, // R50.00
   maxMinorUnits: 150_000, // R1,500.00
+} as const;
+
 export const MESSAGE_SCORING_CONFIG = {
   bands: {
     lowMax: 24,
     mediumMax: 59,
+  },
+  signalWeights: {
+    CREDENTIAL_REQUEST: 0.8,
+    CREATE_ORDER_FOR_THEM: 0.6,
+    UPFRONT_FEE: 0.55,
+    ROMANCE_MONEY: 0.55,
+    MONEY_REVERSAL: 0.5,
+    PRIZE_WIN: 0.4,
+    SECRECY: 0.3,
+    TOO_GOOD_PAY: 0.3,
+    IMPERSONATION: 0.3,
+    RISKY_PAYMENT_METHOD: 0.3,
+    URGENCY: 0.2,
+    OFF_PLATFORM: 0.2,
+    LOOKALIKE_LINK: 0.35,
+    SHORTENED_LINK: 0.25,
   },
   signalWeight: {
     min: 0,
