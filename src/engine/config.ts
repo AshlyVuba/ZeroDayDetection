@@ -59,3 +59,32 @@ export const MESSAGE_SCORING_CONFIG = {
     max: 1,
   },
 } as const;
+
+export const LINK_ANALYSIS_CONFIG = {
+  allowlistedDomains: ["mukuru.com", "capitec.co.za", "fnb.co.za"],
+  brandTerms: [
+    "mukuru",
+    "capitec",
+    "fnb",
+    "absa",
+    "nedbank",
+    "standardbank",
+    "ecocash",
+    "mpesa",
+    "safaricom",
+    "vodacom",
+    "mtn",
+    "sassa",
+  ],
+  shortenedDomains: [
+    "bit.ly",
+    "tinyurl.com",
+    "t.co",
+    "goo.gl",
+    "ow.ly",
+    "is.gd",
+    "cutt.ly",
+    "rb.gy",
+    "shorturl.at",
+  ],
+} as const;

@@ -146,7 +146,7 @@ describe("English message rules", () => {
     [
       "Case 2",
       "Dear customer, your account will be blocked in 24 hours. Verify now: bit.ly/x1 and enter your PIN.",
-      ["CREDENTIAL_REQUEST", "URGENCY"],
+      ["CREDENTIAL_REQUEST", "SHORTENED_LINK", "URGENCY"],
     ],
     [
       "Case 3",

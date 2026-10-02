@@ -5,6 +5,7 @@ export {
   MESSAGE_RULES,
   normalizeMessage,
 } from "./message";
+export { matchLinkSignals } from "./links";
 export { scoreSignals } from "./score";
 export { analyseTransaction } from "./transaction";
 export {

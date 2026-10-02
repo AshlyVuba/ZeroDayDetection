@@ -36,6 +36,8 @@ scripts for local development and verification.
 - Machine-assisted Shona, Northern Ndebele, isiZulu, Portuguese, and Swahili
   translation drafts. They are unreviewed Draft/Beta content, not final
   translations or production-ready.
+- Vitest coverage for message rules, URL cases, normalization, evidence, and
+  performance, plus the existing engine and scoring checks.
 - A native-name language selector, browser-language default, local language
   preference, English fallback, and locale-aware number/currency formatting.
   Unreviewed or unknown locales remain visibly marked Beta.
@@ -45,8 +47,8 @@ scripts for local development and verification.
 
 ### Planned, not implemented
 
-- Scored message analysis, link and transaction checks, broader detection
-  coverage, evidence-based explanations, and practical next steps.
+- Scored message analysis, transaction checks, broader detection coverage,
+  evidence-based explanations, and practical next steps.
 - Complete user-facing flows for entering and checking messages or payments.
 - UI integration and demo testing for the Worker bridge, pending ZD-08.
 - Interface and educational content in English (`en`), Shona (`sn`), Northern
@@ -183,9 +185,10 @@ using Node.js 22.
 
 ZeroDay Detection is not currently ready for real-world scam checking. The
 English message matcher emits rule-based signals without computing risk scores;
-transaction analysis and explanations are still scaffolds, and the application
-UI only displays a placeholder message. Link analysis, broader message and
-transaction coverage, user-facing explanations and flows, localization,
+link checks are limited heuristics, transaction analysis and explanations are
+still scaffolds, and the application UI only displays a placeholder message.
+Broader message and transaction coverage, user-facing explanations and flows,
+localization,
 privacy-focused local storage, offline PWA support, backend, and production
 deployment remain future work. Treat the matcher as an early, limited heuristic
 rather than a guarantee that a message is safe or fraudulent.
