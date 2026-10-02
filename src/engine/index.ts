@@ -36,6 +36,7 @@ export {
 export type {
   AnalysisKind,
   AnalysisOutcome,
+  AnalysisResult,
   AnalysisPayloadByKind,
   AnalysisRequest,
   MessageAnalysisPayload,

@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { createApiServer } from "../server/index.js";
+import { dispatchAnalysisRequest } from "../src/engine/analysis-dispatch";
 
 const server = createApiServer();
 let baseUrl: string;
@@ -39,14 +40,62 @@ describe("stateless analysis API", () => {
     const result = await response.json();
 
     expect(response.status).toBe(200);
+    expect(result).toEqual(
+      dispatchAnalysisRequest({
+        kind: "message",
+        payload: {
+          text: "Please send your password so I can verify the account.",
+          lang: "en",
+        },
+      }),
+    );
     expect(result).toMatchObject({
       score: 80,
       band: "high",
       signals: [expect.objectContaining({ id: "CREDENTIAL_REQUEST" })],
       explanation: {
-        headline: "Pause. Do not pay or share codes yet.",
-        reasons: [expect.stringContaining("password, PIN, or one-time code")],
-        nextSteps: [expect.any(String)],
+        headline: "Several signs raised concern",
+        reasons: [
+          "The message appears to request a password, PIN, or one-time code.",
+        ],
+        nextSteps: [
+          "Pause before acting on this request.",
+          "Verify details through a source you find independently.",
+          "Ask someone you trust to review it.",
+        ],
+      },
+    });
+  });
+
+  it("returns the order-scam result and tailored guidance from shared dispatch", async () => {
+    const text = "Create a Mukuru order on my behalf using your account.";
+    const response = await fetch(`${baseUrl}/api/message/analyse`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ text, lang: "en" }),
+    });
+    const result = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(result).toEqual(
+      dispatchAnalysisRequest({
+        kind: "message",
+        payload: { text, lang: "en" },
+      }),
+    );
+    expect(result).toMatchObject({
+      band: "high",
+      scamType: "mule_request",
+      signals: [expect.objectContaining({ id: "CREATE_ORDER_FOR_THEM" })],
+      explanation: {
+        reasons: [
+          "The request may involve using your account to place an order for someone else.",
+        ],
+        nextSteps: [
+          "Do not place orders or move money for someone else.",
+          "Do not share your account, payment, or identity details.",
+          "If you already placed an order or moved money, contact the provider or your bank through a known channel.",
+        ],
       },
     });
   });

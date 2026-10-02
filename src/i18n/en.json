@@ -5,27 +5,27 @@
     "high": "Several signs raised concern"
   },
   "reason": {
-    "CREDENTIAL_REQUEST": "This message asks for private sign-in details.",
-    "CREATE_ORDER_FOR_THEM": "Someone wants you to place an order on their behalf.",
-    "UPFRONT_FEE": "You are asked to pay before receiving what was promised.",
-    "ROMANCE_MONEY": "Someone you met online asks you for money.",
-    "MONEY_REVERSAL": "A sender asks you to return money after a payment.",
-    "PRIZE_WIN": "The message says you won something you did not enter.",
-    "LOOKALIKE_LINK": "This link looks like it may lead to a copied website.",
-    "SECRECY": "You are asked to keep this request from others.",
-    "TOO_GOOD_PAY": "The promised pay seems unusually high for the work.",
-    "IMPERSONATION": "The sender claims to be someone you may know.",
-    "RISKY_PAYMENT_METHOD": "The requested payment method may be hard to reverse.",
-    "SHORTENED_LINK": "This shortened link hides the website address.",
-    "URGENCY": "The message pressures you to act right away.",
-    "OFF_PLATFORM": "The sender asks you to continue outside this service.",
-    "RECENT_RISKY_MESSAGE": "A recent message raised concerns about this payment.",
-    "AMOUNT_SPIKE": "This payment is larger than your usual payments.",
-    "RAPID_REPEAT": "Several payments to this person happened close together.",
-    "NEW_RECIPIENT": "You have not paid this recipient before.",
-    "FIRST_LARGE": "This is your first payment of this size.",
-    "FEE_LIKE_AMOUNT": "The amount looks like a fee often used in scams.",
-    "ODD_HOUR": "This payment is happening at an unusual time for you."
+    "CREDENTIAL_REQUEST": "The message appears to request a password, PIN, or one-time code.",
+    "CREATE_ORDER_FOR_THEM": "The request may involve using your account to place an order for someone else.",
+    "UPFRONT_FEE": "A fee may be requested before the promised payment, work, or item is provided.",
+    "ROMANCE_MONEY": "A personal or romantic contact appears to be asking for money or gifts.",
+    "MONEY_REVERSAL": "The sender says a payment was mistaken and asks you to return money.",
+    "PRIZE_WIN": "The message claims you won a prize or reward.",
+    "LOOKALIKE_LINK": "The link may imitate an official website; this check cannot verify the site.",
+    "SECRECY": "The sender appears to ask you to keep this request private.",
+    "TOO_GOOD_PAY": "The offer promises unusually high pay for little work.",
+    "IMPERSONATION": "The sender uses an unusual number or account while claiming to be someone you know.",
+    "RISKY_PAYMENT_METHOD": "The requested payment method may be difficult to reverse.",
+    "SHORTENED_LINK": "The shortened link hides the address of the website it opens.",
+    "URGENCY": "The message pressures you to act quickly.",
+    "OFF_PLATFORM": "The sender asks you to continue the conversation on another service.",
+    "RECENT_RISKY_MESSAGE": "A recent message check found warning signs related to this payment.",
+    "AMOUNT_SPIKE": "This payment is larger than recent payments in the same currency.",
+    "RAPID_REPEAT": "Several payments to this recipient happened within a short time.",
+    "NEW_RECIPIENT": "This is the first payment to this recipient in the available history.",
+    "FIRST_LARGE": "This is the first payment above the configured large-payment threshold.",
+    "FEE_LIKE_AMOUNT": "This amount matches a common fee-sized payment pattern.",
+    "ODD_HOUR": "This payment is scheduled during an unusual local hour."
   },
   "steps": {
     "job_scam": [
@@ -58,9 +58,9 @@
       "Ask someone you trust to review the request."
     ],
     "mule_request": [
-      "Do not receive or move money for someone else.",
-      "Do not share your account or payment details.",
-      "If you already moved money, contact your bank through its app or a number on your card."
+      "Do not place orders or move money for someone else.",
+      "Do not share your account, payment, or identity details.",
+      "If you already placed an order or moved money, contact the provider or your bank through a known channel."
     ]
   },
   "ui": {

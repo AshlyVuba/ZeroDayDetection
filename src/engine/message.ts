@@ -291,6 +291,7 @@ export const MESSAGE_RULES: readonly Rule[] = [
   ]),
   rule("CREATE_ORDER_FOR_THEM", [
     /\b(?:place|create|make)\s+(?:an? )?order\s+(?:for me|on my behalf)\b/u,
+    /\b(?:place|create|make)\s+(?:an? )?(?:[\p{L}\p{N}-]+\s+){1,2}order\s+on my behalf\b/u,
     /\b(?:buy|purchase)\b[^.!?]{0,25}\b(?:items?|goods?|products?|supplies?|groceries|order|package|parcel)\b[^.!?]{0,25}\b(?:for me|on my behalf|using your account)\b/u,
   ]),
   rule("UPFRONT_FEE", [

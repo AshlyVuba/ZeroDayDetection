@@ -12,6 +12,13 @@ each locale, `speakerVerification: "pending"`, `textFit360px: "pending"`, and
 `productionReady: false`. A picker should expose the Draft/Beta status and keep
 English (`en`) as the fallback until a locale has completed review.
 
+The English detector-reason copy has been refreshed. Existing non-English
+reason and scam-type guidance remains unchanged machine-assisted draft text;
+it has not been re-reviewed against the refreshed English copy, including the
+order-specific `mule_request` guidance. Generic guidance uses English when
+there is no recognized scam type. Keep all locale review gates pending until
+those strings receive human review.
+
 | Locale | Named reviewer | Status | Speaker verification | 360px text-fit |
 | --- | --- | --- | --- | --- |
 | Shona (`sn`) |  | Draft/Beta; unreviewed | Pending | Pending |

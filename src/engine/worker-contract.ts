@@ -1,5 +1,7 @@
-import type { Lang, RecentRiskRecord, RiskBand, RiskResult, ScamType, Transaction } from "./types";
+import type { Lang, RecentRiskRecord, RiskBand, RiskResult, ScamType, Signal, Transaction } from "./types";
+import type { Explanation } from "./explain";
 import { MINOR_UNITS_PER_MAJOR_UNIT } from "./config";
+import { scoreSignals } from "./score";
 
 export const ANALYSIS_FAILURE_MESSAGE =
   "We couldn't check this. Be careful and verify.";
@@ -29,8 +31,12 @@ export type AnalysisRequest = {
   };
 }[AnalysisKind];
 
+export interface AnalysisResult extends RiskResult {
+  explanation: Explanation;
+}
+
 export type AnalysisOutcome =
-  | { status: "success"; result: RiskResult }
+  | { status: "success"; result: AnalysisResult }
   | { status: "failure"; message: typeof ANALYSIS_FAILURE_MESSAGE };
 
 function isPlainData(value: unknown, ancestors = new WeakSet<object>()): boolean {
@@ -186,7 +192,7 @@ function isRecentRiskRecord(value: unknown): value is RecentRiskRecord {
 export function isRiskResult(value: unknown): value is RiskResult {
   if (!isPlainData(value) || value === null || Array.isArray(value)) return false;
   const result = value as Record<string, unknown>;
-  return (
+  const validShape =
     hasKeys(result, ["score", "band", "signals"], ["scamType"]) &&
     typeof result.score === "number" &&
     Number.isInteger(result.score) &&
@@ -198,8 +204,52 @@ export function isRiskResult(value: unknown): value is RiskResult {
     Array.isArray(result.signals) &&
     result.signals.every(isSignal) &&
     (!Object.hasOwn(result, "scamType") ||
-      typeof result.scamType === "string")
+      isScamType(result.scamType));
+  if (!validShape) return false;
+
+  const scored = scoreSignals(result.signals as Signal[]);
+  return (
+    result.score === scored.score &&
+    result.band === scored.band &&
+    result.scamType === scored.scamType
   );
+}
+
+function isExplanation(value: unknown): value is Explanation {
+  if (!isPlainData(value) || value === null || Array.isArray(value)) return false;
+  const explanation = value as Record<string, unknown>;
+  return (
+    hasKeys(explanation, ["headline", "reasons", "nextSteps"]) &&
+    typeof explanation.headline === "string" &&
+    explanation.headline.trim().length > 0 &&
+    Array.isArray(explanation.reasons) &&
+    explanation.reasons.every(
+      (reason) => typeof reason === "string" && reason.trim().length > 0,
+    ) &&
+    Array.isArray(explanation.nextSteps) &&
+    explanation.nextSteps.length > 0 &&
+    explanation.nextSteps.length <= 4 &&
+    explanation.nextSteps.every(
+      (step) => typeof step === "string" && step.trim().length > 0,
+    )
+  );
+}
+
+export function isAnalysisResult(value: unknown): value is AnalysisResult {
+  if (!isPlainData(value) || value === null || Array.isArray(value)) return false;
+  const result = value as Record<string, unknown>;
+  if (
+    !hasKeys(
+      result,
+      ["score", "band", "signals", "explanation"],
+      ["scamType"],
+    ) ||
+    !isExplanation(result.explanation)
+  ) {
+    return false;
+  }
+  const { explanation: _explanation, ...riskResult } = result;
+  return isRiskResult(riskResult);
 }
 
 export function isAnalysisRequest(value: unknown): value is AnalysisRequest {

@@ -16,30 +16,31 @@ unless they have been checked and approved.
 ## Signal reasons
 
 Each signal has one short reason sentence. Keep each reason to 15 words or fewer.
+Reasons describe the matched signal without repeating user-provided message text.
 
 | Key | English string |
 | --- | --- |
-| `reason.CREDENTIAL_REQUEST` | This message asks for private sign-in details. |
-| `reason.CREATE_ORDER_FOR_THEM` | Someone wants you to place an order on their behalf. |
-| `reason.UPFRONT_FEE` | You are asked to pay before receiving what was promised. |
-| `reason.ROMANCE_MONEY` | Someone you met online asks you for money. |
-| `reason.MONEY_REVERSAL` | A sender asks you to return money after a payment. |
-| `reason.PRIZE_WIN` | The message says you won something you did not enter. |
-| `reason.LOOKALIKE_LINK` | This link looks like it may lead to a copied website. |
-| `reason.SECRECY` | You are asked to keep this request from others. |
-| `reason.TOO_GOOD_PAY` | The promised pay seems unusually high for the work. |
-| `reason.IMPERSONATION` | The sender claims to be someone you may know. |
-| `reason.RISKY_PAYMENT_METHOD` | The requested payment method may be hard to reverse. |
-| `reason.SHORTENED_LINK` | This shortened link hides the website address. |
-| `reason.URGENCY` | The message pressures you to act right away. |
-| `reason.OFF_PLATFORM` | The sender asks you to continue outside this service. |
-| `reason.RECENT_RISKY_MESSAGE` | A recent message raised concerns about this payment. |
-| `reason.AMOUNT_SPIKE` | This payment is larger than your usual payments. |
-| `reason.RAPID_REPEAT` | Several payments to this person happened close together. |
-| `reason.NEW_RECIPIENT` | You have not paid this recipient before. |
-| `reason.FIRST_LARGE` | This is your first payment of this size. |
-| `reason.FEE_LIKE_AMOUNT` | The amount looks like a fee often used in scams. |
-| `reason.ODD_HOUR` | This payment is happening at an unusual time for you. |
+| `reason.CREDENTIAL_REQUEST` | The message appears to request a password, PIN, or one-time code. |
+| `reason.CREATE_ORDER_FOR_THEM` | The request may involve using your account to place an order for someone else. |
+| `reason.UPFRONT_FEE` | A fee may be requested before the promised payment, work, or item is provided. |
+| `reason.ROMANCE_MONEY` | A personal or romantic contact appears to be asking for money or gifts. |
+| `reason.MONEY_REVERSAL` | The sender says a payment was mistaken and asks you to return money. |
+| `reason.PRIZE_WIN` | The message claims you won a prize or reward. |
+| `reason.LOOKALIKE_LINK` | The link may imitate an official website; this check cannot verify the site. |
+| `reason.SECRECY` | The sender appears to ask you to keep this request private. |
+| `reason.TOO_GOOD_PAY` | The offer promises unusually high pay for little work. |
+| `reason.IMPERSONATION` | The sender uses an unusual number or account while claiming to be someone you know. |
+| `reason.RISKY_PAYMENT_METHOD` | The requested payment method may be difficult to reverse. |
+| `reason.SHORTENED_LINK` | The shortened link hides the address of the website it opens. |
+| `reason.URGENCY` | The message pressures you to act quickly. |
+| `reason.OFF_PLATFORM` | The sender asks you to continue the conversation on another service. |
+| `reason.RECENT_RISKY_MESSAGE` | A recent message check found warning signs related to this payment. |
+| `reason.AMOUNT_SPIKE` | This payment is larger than recent payments in the same currency. |
+| `reason.RAPID_REPEAT` | Several payments to this recipient happened within a short time. |
+| `reason.NEW_RECIPIENT` | This is the first payment to this recipient in the available history. |
+| `reason.FIRST_LARGE` | This is the first payment above the configured large-payment threshold. |
+| `reason.FEE_LIKE_AMOUNT` | This amount matches a common fee-sized payment pattern. |
+| `reason.ODD_HOUR` | This payment is scheduled during an unusual local hour. |
 
 ## Next steps by scam type
 
@@ -83,9 +84,9 @@ result's scam type.
 
 ### `steps.mule_request`
 
-- Do not receive or move money for someone else.
-- Do not share your account or payment details.
-- If you already moved money, contact your bank through its app or a number on your card.
+- Do not place orders or move money for someone else.
+- Do not share your account, payment, or identity details.
+- If you already placed an order or moved money, contact the provider or your bank through a known channel.
 
 ## Interface labels
 
