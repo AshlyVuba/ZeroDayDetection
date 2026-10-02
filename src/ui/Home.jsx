@@ -29,7 +29,9 @@ function isExplanation(value) {
 }
 
 function resultExplanation(result, supplied, language) {
-  return isExplanation(supplied) ? supplied : getResultGuidance(result, language);
+  if (isExplanation(supplied)) return supplied;
+  if (isExplanation(result.explanation)) return result.explanation;
+  return getResultGuidance(result, language);
 }
 
 function ResultCard({ result, suppliedExplanation, title, language, headingId }) {
