@@ -65,6 +65,9 @@
   },
   "ui": {
     "appName": "ZeroDay Detection",
+    "languageLabel": "Lugha",
+    "betaLabel": "Beta",
+    "textUnavailable": "Maandishi hayapatikani.",
     "messageTab": "Kagua ujumbe",
     "paymentTab": "Kagua malipo",
     "messageLabel": "Maandishi ya ujumbe",

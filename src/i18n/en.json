@@ -65,6 +65,9 @@
   },
   "ui": {
     "appName": "ZeroDay Detection",
+    "languageLabel": "Language",
+    "betaLabel": "Beta",
+    "textUnavailable": "Text unavailable.",
     "messageTab": "Check a message",
     "paymentTab": "Check a payment",
     "messageLabel": "Message text",

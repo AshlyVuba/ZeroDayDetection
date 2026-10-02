@@ -20,6 +20,17 @@ English (`en`) as the fallback until a locale has completed review.
 | Portuguese (`pt`) |  | Draft/Beta; unreviewed | Pending | Pending |
 | Swahili (`sw`) |  | Draft/Beta; unreviewed | Pending | Pending |
 
+The language selector uses this manifest conservatively: a locale is marked
+Beta unless the manifest explicitly records a reviewed translation that is
+production-ready. Missing or unknown status is therefore never presented as
+final. English is not listed in this translated-locale tracker and is also
+marked Beta until an explicit reviewed status is recorded.
+
+The language-selector integration uses native language names and localized
+selector/Beta labels. Home screen copy remains English for now; it has not been
+rewritten as part of this integration. `npm run check:i18n:missing` lists any
+missing non-empty strings relative to the English catalog for all six locales.
+
 Before removing beta status for any locale, a named fluent speaker/reviewer must
 read every string aloud, correct the translation for meaning and natural usage,
 and verify the rendered text fits at a 360px viewport. Record the reviewer and
