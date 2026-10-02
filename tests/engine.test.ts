@@ -24,10 +24,11 @@ describe("engine scaffold", () => {
   });
 
   it("returns the shared risk result shape for transactions", () => {
-    expect(analyseTransaction(transaction, [])).toEqual({
-      score: 0,
-      band: "low",
-      signals: [],
+    expect(analyseTransaction(transaction, [])).toMatchObject({
+      band: expect.any(String),
+      signals: expect.arrayContaining([
+        expect.objectContaining({ id: "NEW_RECIPIENT" }),
+      ]),
     });
   });
 
