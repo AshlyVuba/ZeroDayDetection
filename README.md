@@ -33,6 +33,9 @@ scripts for local development and verification.
 - Machine-assisted Shona, Northern Ndebele, isiZulu, Portuguese, and Swahili
   translation drafts. They are unreviewed Draft/Beta content, not final
   translations or production-ready.
+- A native-name language selector, browser-language default, local language
+  preference, English fallback, and locale-aware number/currency formatting.
+  Unreviewed or unknown locales remain visibly marked Beta.
 - Vitest coverage for message rules, normalization, evidence, and performance,
   plus the existing engine and scoring checks.
 - Local development, test, lint, type-check, and production-build scripts.
@@ -42,17 +45,18 @@ scripts for local development and verification.
 - Scored message analysis, link and transaction checks, broader detection
   coverage, evidence-based explanations, and practical next steps.
 - Complete user-facing flows for entering and checking messages or payments.
-- Interface and educational content in English (`en`), Shona (`sn`), Northern
-  Ndebele (`nd`), isiZulu (`zu`), Portuguese (`pt`), and Swahili (`sw`).
+- Translation of the Home screen and remaining interface/educational copy in
+  English (`en`), Shona (`sn`), Northern Ndebele (`nd`), isiZulu (`zu`),
+  Portuguese (`pt`), and Swahili (`sw`). The selector is localized; Home copy
+  remains English and is outside the current language-selector integration.
 - An installable offline-capable progressive web app (PWA).
 - Local encrypted storage, with privacy-preserving handling of any user data.
 - A complete application UI and production release.
 
-The language codes currently exist as a shared type only; translated interface
-content is not present. The message matcher is a limited English-only rules
-engine, not a comprehensive detector. PWA and IndexedDB-related dependencies
-are reserved for future work; offline support and encrypted storage are not
-configured or implemented. There is no backend, deployed service, or completed
+The language selector persists only the selected language code; no message or
+payment data is stored by localization. Remaining Home screen copy is currently
+English. The message matcher is a limited English-only rules engine, not a
+comprehensive detector. There is no backend, deployed service, or completed
 user flow yet.
 
 ## Prerequisites
@@ -105,9 +109,10 @@ clean, reproducible dependency install.
 | --- | --- |
 | `npm run dev` | Start Vite's local development server. |
 | `npm test` | Run the Vitest suite once. Message tests cover selected rule examples, not real-world detection accuracy. |
-| `npm run lint` | Lint the ESLint and Vite configuration files. |
+| `npm run lint` | Lint the application entry point and language-selector integration. |
 | `npm run typecheck` | Type-check the engine and test TypeScript files without emitting output. |
 | `npm run validate:i18n` | Check locale key/nested-shape parity and ensure review gates remain marked pending. |
+| `npm run check:i18n:missing` | List missing core English catalog strings for each locale; exits unsuccessfully if any are missing. |
 | `npm run build` | Build the static production bundle into `dist/`. |
 | `npm run preview` | Serve the last production build locally; run `npm run build` first. |
 
@@ -122,9 +127,9 @@ clean, reproducible dependency install.
 ├── src/
 │   ├── data/                  # Reserved for scam education content
 │   ├── engine/                # Message rules, scoring, shared types, and analyzer stubs
-│   ├── i18n/                  # Reserved for localized interface strings
+│   ├── i18n/                  # Locale catalogs, formatting, fallback, and review status
 │   ├── storage/               # Reserved for local storage helpers
-│   ├── ui/                    # Reserved for application screens
+│   ├── ui/                    # Home screen and language selector
 │   └── main.jsx               # Current placeholder application
 ├── tests/
 │   ├── engine.test.ts         # Shared engine contract tests

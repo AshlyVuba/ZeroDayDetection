@@ -65,6 +65,9 @@
   },
   "ui": {
     "appName": "ZeroDay Detection",
+    "languageLabel": "Mutauro",
+    "betaLabel": "Beta",
+    "textUnavailable": "Mashoko haawanikwi.",
     "messageTab": "Ongorora mharidzo",
     "paymentTab": "Ongorora kubhadhara",
     "messageLabel": "Mashoko emharidzo",
