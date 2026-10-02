@@ -192,6 +192,8 @@ describe("analysis worker dispatch", () => {
   });
 
   it("accepts transaction analysis payloads and returns only a risk result", () => {
+    const transactionTimestamp = new Date(2025, 0, 15, 12).getTime();
+
     expect(
       dispatchAnalysisRequest({
         kind: "transaction",
@@ -199,11 +201,19 @@ describe("analysis worker dispatch", () => {
           transaction: {
             id: "tx-1",
             recipientId: "recipient-1",
-            amount: 100,
+            amount: 101,
             currency: "ZAR",
-            timestamp: 1_700_000_000_000,
+            timestamp: transactionTimestamp,
           },
-          history: [],
+          history: [
+            {
+              id: "tx-0",
+              recipientId: "recipient-1",
+              amount: 101,
+              currency: "ZAR",
+              timestamp: new Date(2025, 0, 15, 11).getTime(),
+            },
+          ],
         },
       }),
     ).toEqual({ score: 0, band: "low", signals: [] });
