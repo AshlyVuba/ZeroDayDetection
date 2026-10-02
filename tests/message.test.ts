@@ -144,7 +144,7 @@ describe("English message rules", () => {
     [
       "Case 2",
       "Dear customer, your account will be blocked in 24 hours. Verify now: bit.ly/x1 and enter your PIN.",
-      ["CREDENTIAL_REQUEST", "URGENCY"],
+      ["CREDENTIAL_REQUEST", "SHORTENED_LINK", "URGENCY"],
     ],
     [
       "Case 3",
@@ -219,6 +219,83 @@ describe("message normalization and API", () => {
         (signal) => signal.id === "IMPERSONATION",
       ),
     ).toBe(false);
+  });
+
+  it.each([
+    ["shortener with scheme", "Check https://bit.ly/abc.", ["SHORTENED_LINK"]],
+    ["bare shortener domain", "Try bit.ly/abc now", ["SHORTENED_LINK"]],
+    ["www shortener", "See www.tinyurl.com/offer", ["SHORTENED_LINK"]],
+    [
+      "brand in a non-allowlisted domain",
+      "Open https://mukuru-secure.example/login",
+      ["LOOKALIKE_LINK"],
+    ],
+    [
+      "punycode hostname",
+      "Open https://xn--80ak6aa92e.example/login",
+      ["LOOKALIKE_LINK"],
+    ],
+    [
+      "raw IP address",
+      "Open http://192.0.2.10/login",
+      ["LOOKALIKE_LINK"],
+    ],
+    [
+      "non-HTTPS link with credential terms",
+      "Open http://example.org/login and enter your PIN",
+      ["LOOKALIKE_LINK"],
+    ],
+    [
+      "uppercase shortener with trailing punctuation",
+      "Use HTTPS://RB.GY/AbC,",
+      ["SHORTENED_LINK"],
+    ],
+    ["allowlisted Mukuru domain", "https://mukuru.com/help", []],
+    [
+      "allowlisted Capitec subdomain",
+      "https://secure.capitec.co.za/login",
+      [],
+    ],
+    ["allowlisted FNB domain", "https://fnb.co.za", []],
+    ["unusual TLD alone", "Visit https://example.xyz/offer", []],
+    [
+      "brand mention outside the URL",
+      "Mukuru is mentioned here: https://example.org",
+      [],
+    ],
+    [
+      "HTTPS link with credential words",
+      "Open https://example.net/login and enter your PIN",
+      [],
+    ],
+  ] as const)(
+    "matches URL signals for %s",
+    (_name, message, expectedSignalIds) => {
+      expect(
+        matchMessageSignals(message)
+          .filter((signal) =>
+            ["LOOKALIKE_LINK", "SHORTENED_LINK"].includes(signal.id),
+          )
+          .map((signal) => signal.id)
+          .sort(),
+      ).toEqual([...expectedSignalIds].sort());
+    },
+  );
+
+  it("keeps link evidence as bounded plain text without trailing punctuation", () => {
+    const message = "Please check HTTPS://GOO.GL/abc).";
+    const signal = matchMessageSignals(message).find(
+      (candidate) => candidate.id === "SHORTENED_LINK",
+    );
+
+    expect(signal?.evidence).toBe("HTTPS://GOO.GL/abc");
+    expect(signal?.evidence?.length).toBeLessThanOrEqual(40);
+    expect(signal?.weight).toBe(0.25);
+    expect(
+      matchMessageSignals("https://mukuru-secure.example").find(
+        (candidate) => candidate.id === "LOOKALIKE_LINK",
+      )?.weight,
+    ).toBe(0.35);
   });
 
   it("keeps analyseMessage's public result shape without scoring", () => {

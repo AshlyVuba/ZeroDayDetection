@@ -25,22 +25,23 @@ scripts for local development and verification.
 
 - A Vite application that renders a placeholder page titled **ZeroDay Detection**.
 - Shared TypeScript types for risk results, signals, languages, and transactions.
-- English message matching for 12 non-link warning signals, with bounded
-  original-text evidence; transaction analysis remains a scaffold.
+- English message matching for 12 phrase-based warning signals and local URL
+  heuristics for lookalike and shortened links, with bounded original-text
+  evidence; transaction analysis remains a scaffold.
 - An explanation entry point that returns a fixed placeholder explanation and
   general next step.
 - Three Vitest checks for those scaffold contracts.
 - Machine-assisted Shona, Northern Ndebele, isiZulu, Portuguese, and Swahili
   translation drafts. They are unreviewed Draft/Beta content, not final
   translations or production-ready.
-- Vitest coverage for message rules, normalization, evidence, and performance,
-  plus the existing engine and scoring checks.
+- Vitest coverage for message rules, URL cases, normalization, evidence, and
+  performance, plus the existing engine and scoring checks.
 - Local development, test, lint, type-check, and production-build scripts.
 
 ### Planned, not implemented
 
-- Scored message analysis, link and transaction checks, broader detection
-  coverage, evidence-based explanations, and practical next steps.
+- Scored message analysis, transaction checks, broader detection coverage,
+  evidence-based explanations, and practical next steps.
 - Complete user-facing flows for entering and checking messages or payments.
 - Interface and educational content in English (`en`), Shona (`sn`), Northern
   Ndebele (`nd`), isiZulu (`zu`), Portuguese (`pt`), and Swahili (`sw`).
@@ -171,9 +172,10 @@ using Node.js 22.
 
 ZeroDay Detection is not currently ready for real-world scam checking. The
 English message matcher emits rule-based signals without computing risk scores;
-transaction analysis and explanations are still scaffolds, and the application
-UI only displays a placeholder message. Link analysis, broader message and
-transaction coverage, user-facing explanations and flows, localization,
+link checks are limited heuristics, transaction analysis and explanations are
+still scaffolds, and the application UI only displays a placeholder message.
+Broader message and transaction coverage, user-facing explanations and flows,
+localization,
 privacy-focused local storage, offline PWA support, backend, and production
 deployment remain future work. Treat the matcher as an early, limited heuristic
 rather than a guarantee that a message is safe or fraudulent.

@@ -1,5 +1,6 @@
 import { MESSAGE_SCORING_CONFIG } from "./config";
 import type { Lang, RiskResult, Signal } from "./types";
+import { matchLinkSignals } from "./links";
 
 const ZERO_WIDTH_CHARACTERS = /[\u180e\u200b-\u200d\u2060\ufeff]/gu;
 const MARKS = /\p{M}/gu;
@@ -238,7 +239,7 @@ export function matchMessageSignals(text: string): Signal[] {
     }
   }
 
-  return signals;
+  return [...signals, ...matchLinkSignals(text)];
 }
 
 export function analyseMessage(text: string, _lang?: Lang): RiskResult {

@@ -5,11 +5,22 @@ characters, lowercases it, and collapses whitespace. Rules match an
 accent-stripped representation; evidence is sliced from the original message
 and limited to 40 characters.
 
-`matchMessageSignals` returns matching non-link `Signal` objects only. The
-existing `analyseMessage` entry point retains its `RiskResult` shape with the
-signals attached and placeholder score/band values; it does not score messages.
-Rule weights come from `MESSAGE_SCORING_CONFIG.signalWeights`. Link signals
-remain reserved for ZD-13.
+`matchMessageSignals` returns matching message and link `Signal` objects. Link
+matching extracts HTTP(S) URLs and bare domains (including `www.` domains),
+trims terminal punctuation, and keeps evidence as bounded plain text. It does
+not fetch, resolve, probe, or navigate to URLs. Shortener hosts produce
+`SHORTENED_LINK`; non-allowlisted domains containing a listed brand term,
+punycode hosts, raw IPv4 hosts, and non-HTTPS links alongside credential terms
+can produce `LOOKALIKE_LINK`. A TLD alone is not a signal. Signal weights come
+from `MESSAGE_SCORING_CONFIG.signalWeights`. The existing `analyseMessage`
+entry point retains its `RiskResult` shape with the signals attached and
+placeholder score/band values; it does not score messages.
+
+The allowlist in `LINK_ANALYSIS_CONFIG` is a starter heuristic, not a verified
+ownership list. Its current examples are `mukuru.com`, `capitec.co.za`, and
+`fnb.co.za`; a second person must verify the domains before relying on or
+expanding the list. Allowlisted domains and their subdomains are excluded from
+lookalike signals.
 
 The Vitest performance check warms the matcher twice, then takes seven
 measurements of a 20,000-character message and asserts that the median is under
