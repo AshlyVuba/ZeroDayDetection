@@ -7,11 +7,10 @@ import {
   type AnalysisWorker,
 } from "../src/engine/worker-bridge";
 
-const riskResult = {
-  score: 64,
-  band: "high",
-  signals: [{ id: "URGENCY", weight: 0.2, evidence: "act now" }],
-} as const;
+const riskResult = dispatchAnalysisRequest({
+  kind: "message",
+  payload: { text: "Please act now. Visit https://capitac.co.za" },
+});
 
 class FakeWorker implements AnalysisWorker {
   onmessage: AnalysisWorker["onmessage"] = null;
@@ -138,7 +137,10 @@ describe("runAnalysis", () => {
   it("uses a separate worker for each concurrent call", async () => {
     const workers = [new FakeWorker(), new FakeWorker()];
     workers[0].response = riskResult;
-    workers[1].response = { score: 0, band: "low", signals: [] };
+    workers[1].response = dispatchAnalysisRequest({
+      kind: "message",
+      payload: { text: "hello" },
+    });
     let nextWorker = 0;
 
     const outcomes = await Promise.all([
@@ -152,7 +154,13 @@ describe("runAnalysis", () => {
 
     expect(outcomes).toEqual([
       { status: "success", result: riskResult },
-      { status: "success", result: { score: 0, band: "low", signals: [] } },
+      {
+        status: "success",
+        result: dispatchAnalysisRequest({
+          kind: "message",
+          payload: { text: "hello" },
+        }),
+      },
     ]);
     expect(workers.map((worker) => worker.postedRequest?.payload)).toEqual([
       { text: "first" },
@@ -163,22 +171,44 @@ describe("runAnalysis", () => {
 });
 
 describe("analysis worker dispatch", () => {
-  it("returns only the message analyzer's risk result", () => {
+  it("returns the message analyzer's risk result and shared explanation", () => {
     expect(
       dispatchAnalysisRequest({
         kind: "message",
         payload: { text: "Please send your password so I can verify." },
       }),
-    ).toEqual({
+    ).toMatchObject({
       score: 80,
       band: "high",
-      signals: [
-        {
-          id: "CREDENTIAL_REQUEST",
-          weight: 0.8,
-          evidence: "Please send your password so I can verif",
+      signals: [expect.objectContaining({ id: "CREDENTIAL_REQUEST" })],
+      explanation: {
+        headline: "Several signs raised concern",
+        reasons: [
+          "The message appears to request a password, PIN, or one-time code.",
+        ],
+      },
+    });
+  });
+
+  it("includes order-scam classification and tailored guidance in worker output", () => {
+    expect(
+      dispatchAnalysisRequest({
+        kind: "message",
+        payload: {
+          text: "Create a Mukuru order on my behalf using your account.",
         },
-      ],
+      }),
+    ).toMatchObject({
+      band: "high",
+      scamType: "mule_request",
+      signals: [expect.objectContaining({ id: "CREATE_ORDER_FOR_THEM" })],
+      explanation: {
+        nextSteps: [
+          "Do not place orders or move money for someone else.",
+          "Do not share your account, payment, or identity details.",
+          "If you already placed an order or moved money, contact the provider or your bank through a known channel.",
+        ],
+      },
     });
   });
 
@@ -191,7 +221,7 @@ describe("analysis worker dispatch", () => {
     ).toThrow("Invalid analysis request");
   });
 
-  it("accepts transaction analysis payloads and returns only a risk result", () => {
+  it("accepts transaction analysis payloads and includes an explanation", () => {
     const transactionTimestamp = new Date(2025, 0, 15, 12).getTime();
 
     expect(
@@ -216,6 +246,13 @@ describe("analysis worker dispatch", () => {
           ],
         },
       }),
-    ).toEqual({ score: 0, band: "low", signals: [] });
+    ).toMatchObject({
+      score: 0,
+      band: "low",
+      signals: [],
+      explanation: {
+        headline: "Few signs raised concern",
+      },
+    });
   });
 });

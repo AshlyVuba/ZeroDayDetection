@@ -1,10 +1,11 @@
-import { isAnalysisRequest, isRiskResult } from "./worker-contract";
+import { isAnalysisRequest, isAnalysisResult } from "./worker-contract";
 import { ANALYSIS_FAILURE_MESSAGE } from "./worker-contract";
 import type {
   AnalysisKind,
   AnalysisOutcome,
   AnalysisPayloadByKind,
   AnalysisRequest,
+  AnalysisResult,
 } from "./worker-contract";
 
 export { ANALYSIS_FAILURE_MESSAGE } from "./worker-contract";
@@ -13,6 +14,7 @@ export type {
   AnalysisOutcome,
   AnalysisPayloadByKind,
   AnalysisRequest,
+  AnalysisResult,
   MessageAnalysisPayload,
   TransactionAnalysisPayload,
 } from "./worker-contract";
@@ -80,7 +82,7 @@ export async function runAnalysis<Kind extends AnalysisKind>(
 
     worker.onmessage = (event) => {
       settle(
-        isRiskResult(event.data)
+        isAnalysisResult(event.data)
           ? { status: "success", result: event.data }
           : failure(),
       );

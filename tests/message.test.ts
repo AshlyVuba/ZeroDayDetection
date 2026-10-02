@@ -17,6 +17,7 @@ const positiveExamples: Record<string, string[]> = {
   CREATE_ORDER_FOR_THEM: [
     "Place an order on my behalf using your account.",
     "Could you buy these items for me and ship them?",
+    "Create a Mukuru order on my behalf using your account.",
   ],
   UPFRONT_FEE: [
     "Pay R450 as a registration fee before your first shift.",

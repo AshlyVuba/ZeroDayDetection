@@ -19,7 +19,7 @@ export interface RiskResult {
   score: number;
   band: RiskBand;
   signals: Signal[];
-  scamType?: string;
+  scamType?: ScamType;
 }
 
 export interface Transaction {

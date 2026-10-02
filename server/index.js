@@ -3,9 +3,7 @@ import { isIP } from "node:net";
 import { readFile, realpath } from "node:fs/promises";
 import { dirname, extname, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { analyseTransaction } from "../src/engine/transaction.ts";
-import { explain } from "../src/engine/explain.ts";
-import { analyseMessage } from "../src/engine/message.ts";
+import { dispatchAnalysisRequest } from "../src/engine/analysis-dispatch.ts";
 import { isAnalysisRequest } from "../src/engine/worker-contract.ts";
 import { cleanRecentRisk } from "../src/engine/recent-risk.ts";
 
@@ -314,27 +312,29 @@ export function createApiServer(options = {}) {
       return;
     }
 
-    const language = kind === "message" ? body.lang ?? "en" : "en";
     let result;
     try {
       if (kind === "message") {
-        result = analyseMessage(body.text, language);
+        result = dispatchAnalysisRequest({
+          kind,
+          payload: { text: body.text, lang: body.lang ?? "en" },
+        });
       } else {
         const recentMessage = cleanRecentRisk(body.recentMessage, now());
-        result = analyseTransaction(
-          body.transaction,
-          body.history,
-          recentMessage,
-        );
+        result = dispatchAnalysisRequest({
+          kind,
+          payload: {
+            transaction: body.transaction,
+            history: body.history,
+            ...(recentMessage === undefined ? {} : { recentMessage }),
+          },
+        });
       }
     } catch {
       send(response, 400, { error: GENERIC_ERROR });
       return;
     }
-    send(response, 200, {
-      ...result,
-      explanation: explain(result, language),
-    });
+    send(response, 200, result);
   });
   server.on("close", () => clearInterval(limiterCleanup));
   return server;

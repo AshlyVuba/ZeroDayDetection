@@ -1,12 +1,12 @@
 import { dispatchAnalysisRequest } from "./analysis-dispatch";
-import type { RiskResult } from "./types";
+import type { AnalysisResult } from "./worker-contract";
 
 interface AnalysisWorkerScope {
   addEventListener(
     type: "message",
     listener: (event: { data: unknown }) => void,
   ): void;
-  postMessage(result: RiskResult): void;
+  postMessage(result: AnalysisResult): void;
 }
 
 const workerScope = globalThis as unknown as AnalysisWorkerScope;
