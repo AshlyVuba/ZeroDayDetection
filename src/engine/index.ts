@@ -8,17 +8,6 @@ export {
 export { scoreSignals } from "./score";
 export { analyseTransaction } from "./transaction";
 export {
-  ANALYSIS_FAILURE_MESSAGE,
-  runAnalysis,
-} from "./worker-bridge";
-export type {
-  AnalysisKind,
-  AnalysisOutcome,
-  AnalysisPayloadByKind,
-  AnalysisRequest,
-  MessageAnalysisPayload,
-  TransactionAnalysisPayload,
-} from "./worker-bridge";
   FEE_LIKE_SETTINGS,
   LARGE_TRANSACTION_LIMITS_MINOR_UNITS,
   MINOR_UNITS_PER_MAJOR_UNIT,
@@ -33,6 +22,18 @@ export {
   normalizeRecipientId,
   toMinorUnits,
 } from "./transactionHelpers";
+export {
+  ANALYSIS_FAILURE_MESSAGE,
+  runAnalysis,
+} from "./worker-bridge";
+export type {
+  AnalysisKind,
+  AnalysisOutcome,
+  AnalysisPayloadByKind,
+  AnalysisRequest,
+  MessageAnalysisPayload,
+  TransactionAnalysisPayload,
+} from "./worker-bridge";
 export type { Explanation } from "./explain";
 export type { NormalizedMessage, Rule } from "./message";
 export type { Lang, RiskBand, RiskResult, Signal, Transaction } from "./types";
