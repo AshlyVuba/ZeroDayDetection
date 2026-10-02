@@ -120,5 +120,8 @@ result's scam type.
 
 ## Review status
 
-This is draft English copy. It has not had a human comprehension review. No
-other languages are included in this key sheet.
+This is draft English copy and has not had a human comprehension review. The
+Shona, Northern Ndebele, isiZulu, Portuguese, and Swahili catalogs are separate
+machine-assisted Draft/Beta copies, also unreviewed and not production-ready.
+See [the translation draft review tracker](translation-review.md) for locale
+review status and release gates.

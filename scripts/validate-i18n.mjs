@@ -36,6 +36,7 @@ const requiredScamTypes = [
 const requiredBands = ["low", "medium", "high"];
 const requiredGroups = ["band", "reason", "steps", "ui", "errors"];
 const errors = [];
+const localeCodes = ["sn", "nd", "zu", "pt", "sw"];
 
 function isRecord(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -54,6 +55,58 @@ function checkKeys(group, requiredKeys) {
   }
 
   return true;
+}
+
+function findShapeDifferences(source, translation, currentPath = "") {
+  const sourceIsArray = Array.isArray(source);
+  const translationIsArray = Array.isArray(translation);
+  if (sourceIsArray !== translationIsArray) {
+    return [`${currentPath || "<root>"}: expected ${sourceIsArray ? "array" : "object"}`];
+  }
+
+  if (sourceIsArray) {
+    if (translation.length !== source.length) {
+      return [`${currentPath || "<root>"}: expected ${source.length} array entries, found ${translation.length}`];
+    }
+    return source.flatMap((value, index) =>
+      findShapeDifferences(value, translation[index], `${currentPath}[${index}]`),
+    );
+  }
+
+  if (source !== null && typeof source === "object") {
+    if (translation === null || typeof translation !== "object") {
+      return [`${currentPath || "<root>"}: expected object`];
+    }
+
+    const sourceKeys = Object.keys(source).sort();
+    const translationKeys = Object.keys(translation).sort();
+    const differences = [];
+    for (const key of sourceKeys) {
+      if (!Object.hasOwn(translation, key)) {
+        differences.push(`${currentPath ? `${currentPath}.` : ""}${key}: missing key`);
+      } else {
+        differences.push(...findShapeDifferences(
+          source[key],
+          translation[key],
+          `${currentPath ? `${currentPath}.` : ""}${key}`,
+        ));
+      }
+    }
+    for (const key of translationKeys) {
+      if (!Object.hasOwn(source, key)) {
+        differences.push(`${currentPath ? `${currentPath}.` : ""}${key}: unexpected key`);
+      }
+    }
+    return differences;
+  }
+
+  if (typeof source !== typeof translation) {
+    return [`${currentPath || "<root>"}: expected ${typeof source}`];
+  }
+  if (typeof translation === "string" && !translation.trim()) {
+    return [`${currentPath || "<root>"}: translation must not be empty`];
+  }
+  return [];
 }
 
 let strings;
@@ -140,11 +193,60 @@ if (/scam shield/iu.test(allCopy)) {
   errors.push('English copy must use "ZeroDay Detection", not "Scam Shield".');
 }
 
+let reviewStatus;
+try {
+  reviewStatus = JSON.parse(
+    await readFile(new URL("../src/i18n/review-status.json", import.meta.url), "utf8"),
+  );
+} catch (error) {
+  console.error(`Could not read src/i18n/review-status.json: ${error.message}`);
+  process.exit(1);
+}
+
+if (!isRecord(reviewStatus)) {
+  errors.push("Expected src/i18n/review-status.json to contain a JSON object.");
+} else {
+  const statusLocales = Object.keys(reviewStatus).sort();
+  if (JSON.stringify(statusLocales) !== JSON.stringify([...localeCodes].sort())) {
+    errors.push(`Review status locales must be exactly: ${localeCodes.join(", ")}.`);
+  }
+
+  for (const locale of localeCodes) {
+    let translation;
+    try {
+      translation = JSON.parse(
+        await readFile(new URL(`../src/i18n/${locale}.json`, import.meta.url), "utf8"),
+      );
+    } catch (error) {
+      errors.push(`Could not read src/i18n/${locale}.json: ${error.message}`);
+      continue;
+    }
+
+    errors.push(...findShapeDifferences(strings, translation, locale));
+
+    const status = reviewStatus[locale];
+    if (!isRecord(status)) {
+      errors.push(`${locale}: missing review status object.`);
+      continue;
+    }
+    if (typeof status.localeName !== "string" || !status.localeName.trim()) {
+      errors.push(`${locale}: localeName must be a non-empty string.`);
+    }
+    if (status.status !== "Draft/Beta") errors.push(`${locale}: status must remain Draft/Beta.`);
+    if (status.reviewer !== "") errors.push(`${locale}: reviewer must remain empty until assigned.`);
+    if (status.translationReview !== "unreviewed") errors.push(`${locale}: translation must remain marked unreviewed.`);
+    if (status.speakerVerification !== "pending") errors.push(`${locale}: speaker verification must remain pending.`);
+    if (status.textFit360px !== "pending") errors.push(`${locale}: 360px text-fit review must remain pending.`);
+    if (status.productionReady !== false) errors.push(`${locale}: productionReady must remain false.`);
+    if (status.fallbackLocale !== "en") errors.push(`${locale}: fallbackLocale must be en.`);
+  }
+}
+
 if (errors.length > 0) {
-  console.error(`English string validation failed:\n- ${errors.join("\n- ")}`);
+  console.error(`Localization validation failed:\n- ${errors.join("\n- ")}`);
   process.exit(1);
 }
 
 console.log(
-  `English strings are complete: ${requiredReasons.length} reasons, ${requiredScamTypes.length} step sets, ${requiredBands.length} bands.`,
+  `English strings and ${localeCodes.join(", ")} catalogs passed validation; translations remain Draft/Beta.`,
 );

@@ -1,0 +1,91 @@
+{
+  "band": {
+    "low": "Zviratidzo zvishoma zvamutsa kunetseka",
+    "medium": "Zvimwe zviratidzo zvamutsa kunetseka",
+    "high": "Zviratidzo zvakati wandei zvamutsa kunetseka"
+  },
+  "reason": {
+    "CREDENTIAL_REQUEST": "Mharidzo iyi inokumbira ruzivo rwako rwepachivande rwekupinda muakaundi.",
+    "CREATE_ORDER_FOR_THEM": "Mumwe munhu anoda kuti umutengere chinhu achishandisa zita rake.",
+    "UPFRONT_FEE": "Uri kukumbirwa kubhadhara usati wagamuchira zvawakavimbiswa.",
+    "ROMANCE_MONEY": "Mumwe munhu wawakasangana naye paindaneti ari kukukumbira mari.",
+    "MONEY_REVERSAL": "Munhu akutumira mari ari kukukumbira kuti uidzosere.",
+    "PRIZE_WIN": "Mharidzo inoti wahwina mubairo usina kukwikwidza.",
+    "LOOKALIKE_LINK": "Zvinotaridza kuti link iyi inogona kukuendesa pawebhusaiti yakakopwa.",
+    "SECRECY": "Uri kukumbirwa kuti usaudze vamwe nezvechikumbiro ichi.",
+    "TOO_GOOD_PAY": "Mari iri kuvimbiswa inoita seyakawandisa pabasa racho.",
+    "IMPERSONATION": "Munhu akutumira anoti munhu waungave uchiziva.",
+    "RISKY_PAYMENT_METHOD": "Nzira yekubhadhara iri kukumbirwa inogona kunetsa kudzosera.",
+    "SHORTENED_LINK": "Link yakapfupiswa iyi inovanza kero yewebhusaiti.",
+    "URGENCY": "Mharidzo inokumanikidza kuita chimwe chinhu nekukurumidza.",
+    "OFF_PLATFORM": "Munhu akutumira anoda kuti muenderere mberi kunze kwesevhisi iyi.",
+    "RECENT_RISKY_MESSAGE": "Mharidzo ichangobva kusvika yamutsa kunetseka nezvekubhadhara uku.",
+    "AMOUNT_SPIKE": "Mari iyi yakakura kupfuura yaunowanzobhadhara.",
+    "RAPID_REPEAT": "Wabhadhara munhu uyu kakawanda munguva pfupi.",
+    "NEW_RECIPIENT": "Hausati wambobhadhara munhu uyu.",
+    "FIRST_LARGE": "Aka ndekekutanga kubhadhara mari yakakura zvakadai.",
+    "FEE_LIKE_AMOUNT": "Mari iyi inoita semari inowanzoshandiswa pakubiridzira.",
+    "ODD_HOUR": "Uri kubhadhara panguva isingawanzoitiki kwauri."
+  },
+  "steps": {
+    "job_scam": [
+      "Mira zvishoma usati wabhadhara basa kana kudzidziswa.",
+      "Tsvaga ruzivo rwekambani nebasa racho uchishandisa kwaunozvisarudzira.",
+      "Kumbira munhu waunovimba naye kuti aongorore mukana webasa."
+    ],
+    "phishing": [
+      "Usashandise link iri mumharidzo.",
+      "Vhura sevhisi uchishandisa app kana kero yaunotoziva.",
+      "Chinja password yako kana wakaigovera."
+    ],
+    "romance_scam": [
+      "Usatumira mari kana makadhi ezvipo kumunhu wausati wambosangana naye.",
+      "Tora nguva yekuongorora nyaya yake nemunhu waunovimba naye."
+    ],
+    "mobile_money_reversal": [
+      "Tarisa mari yako muapp yekubhadhara.",
+      "Usadzosera mari uchivimba nemharidzo chete.",
+      "Bata kambani yako yekubhadhara kuburikidza neapp yayo kana statement."
+    ],
+    "prize_scam": [
+      "Usabhadhare mari kuti utore mubairo.",
+      "Tarisa kana wakapinda mumakwikwi acho.",
+      "Kumbira munhu waunovimba naye usati wagovera mashoko."
+    ],
+    "impersonation": [
+      "Bata munhu wacho nenhamba kana app yawagara unayo.",
+      "Usatumira mari kana macode kusvikira wasimbisa kuti ndiani.",
+      "Kumbira munhu waunovimba naye kuti aongorore chikumbiro."
+    ],
+    "mule_request": [
+      "Usagamuchire kana kutamisa mari yemumwe munhu.",
+      "Usagovera mashoko eakaundi yako kana ekubhadhara.",
+      "Kana wakatamisa mari kare, bata bhanga rako uchishandisa app yaro kana nhamba iri pakadhi rako."
+    ]
+  },
+  "ui": {
+    "appName": "ZeroDay Detection",
+    "messageTab": "Ongorora mharidzo",
+    "paymentTab": "Ongorora kubhadhara",
+    "messageLabel": "Mashoko emharidzo",
+    "messagePlaceholder": "Namira mharidzo pano",
+    "paymentAmountLabel": "Mari yekubhadhara",
+    "recipientLabel": "Munhu ari kugamuchira",
+    "checkButton": "Ongorora izvozvi",
+    "checking": "Iri kuongorora...",
+    "resultTitle": "Zvatakaona",
+    "reasonsTitle": "Chikonzero chayaratidzwa",
+    "stepsTitle": "Zvaungaita",
+    "dismissButton": "Vhara",
+    "privacyNote": "Mharidzo yako inoramba iri pamudziyo uyu."
+  },
+  "errors": {
+    "loadFailed": "Hatina kukwanisa kuisa mashoko aya. Edza zvakare.",
+    "analysisFailed": "Hatina kukwanisa kuongorora mharidzo iyi. Ndapota edza zvakare.",
+    "emptyMessage": "Isa mharidzo kuti iongororwe.",
+    "invalidAmount": "Isa mari yekubhadhara inodarika zero.",
+    "offline": "Zvinoita sokuti hauna kubatana neindaneti. Edza zvakare kana wava nekubatana.",
+    "saveFailed": "Hatina kukwanisa kuchengetedza marongero aya.",
+    "unknown": "Pane chakanganisika. Edza zvakare."
+  }
+}

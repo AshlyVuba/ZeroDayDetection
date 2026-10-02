@@ -29,6 +29,10 @@ scripts for local development and verification.
   original-text evidence; transaction analysis remains a scaffold.
 - An explanation entry point that returns a fixed placeholder explanation and
   general next step.
+- Three Vitest checks for those scaffold contracts.
+- Machine-assisted Shona, Northern Ndebele, isiZulu, Portuguese, and Swahili
+  translation drafts. They are unreviewed Draft/Beta content, not final
+  translations or production-ready.
 - Vitest coverage for message rules, normalization, evidence, and performance,
   plus the existing engine and scoring checks.
 - Local development, test, lint, type-check, and production-build scripts.
@@ -103,6 +107,7 @@ clean, reproducible dependency install.
 | `npm test` | Run the Vitest suite once. Message tests cover selected rule examples, not real-world detection accuracy. |
 | `npm run lint` | Lint the ESLint and Vite configuration files. |
 | `npm run typecheck` | Type-check the engine and test TypeScript files without emitting output. |
+| `npm run validate:i18n` | Check locale key/nested-shape parity and ensure review gates remain marked pending. |
 | `npm run build` | Build the static production bundle into `dist/`. |
 | `npm run preview` | Serve the last production build locally; run `npm run build` first. |
 

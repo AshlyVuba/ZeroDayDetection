@@ -1,0 +1,52 @@
+{
+  "sn": {
+    "localeName": "Shona",
+    "status": "Draft/Beta",
+    "reviewer": "",
+    "translationReview": "unreviewed",
+    "speakerVerification": "pending",
+    "textFit360px": "pending",
+    "productionReady": false,
+    "fallbackLocale": "en"
+  },
+  "nd": {
+    "localeName": "Northern Ndebele",
+    "status": "Draft/Beta",
+    "reviewer": "",
+    "translationReview": "unreviewed",
+    "speakerVerification": "pending",
+    "textFit360px": "pending",
+    "productionReady": false,
+    "fallbackLocale": "en"
+  },
+  "zu": {
+    "localeName": "isiZulu",
+    "status": "Draft/Beta",
+    "reviewer": "",
+    "translationReview": "unreviewed",
+    "speakerVerification": "pending",
+    "textFit360px": "pending",
+    "productionReady": false,
+    "fallbackLocale": "en"
+  },
+  "pt": {
+    "localeName": "Portuguese",
+    "status": "Draft/Beta",
+    "reviewer": "",
+    "translationReview": "unreviewed",
+    "speakerVerification": "pending",
+    "textFit360px": "pending",
+    "productionReady": false,
+    "fallbackLocale": "en"
+  },
+  "sw": {
+    "localeName": "Swahili",
+    "status": "Draft/Beta",
+    "reviewer": "",
+    "translationReview": "unreviewed",
+    "speakerVerification": "pending",
+    "textFit360px": "pending",
+    "productionReady": false,
+    "fallbackLocale": "en"
+  }
+}
