@@ -1,0 +1,322 @@
+{
+  "formatVersion": 1,
+  "source": "ZeroDay ScamShield Playbook, section 7, page 25",
+  "requiredSignalIds": [
+    "UPFRONT_FEE",
+    "CREDENTIAL_REQUEST",
+    "URGENCY",
+    "SECRECY",
+    "PRIZE_WIN",
+    "MONEY_REVERSAL",
+    "RISKY_PAYMENT_METHOD",
+    "OFF_PLATFORM"
+  ],
+  "languages": {
+    "sn": {
+      "name": "Shona",
+      "speakerReviewer": {
+        "required": true,
+        "name": null
+      },
+      "speakerAuthoredPhrasesRequired": false,
+      "starterPhrases": [
+        {
+          "text": "tumira mari",
+          "signalId": "RISKY_PAYMENT_METHOD",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "wakunda",
+          "signalId": "PRIZE_WIN",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        }
+      ],
+      "productionPhrases": [],
+      "coverage": {
+        "minimumVerifiedPhraseCount": 8,
+        "verifiedPhraseCount": 0,
+        "remainingVerifiedPhraseCount": 8,
+        "coveredVerifiedSignalIds": [],
+        "missingVerifiedSignalIds": [
+          "UPFRONT_FEE",
+          "CREDENTIAL_REQUEST",
+          "URGENCY",
+          "SECRECY",
+          "PRIZE_WIN",
+          "MONEY_REVERSAL",
+          "RISKY_PAYMENT_METHOD",
+          "OFF_PLATFORM"
+        ],
+        "status": "blocked"
+      },
+      "messageSamples": {
+        "requiredScamCount": 3,
+        "requiredHonestCount": 3,
+        "scam": [],
+        "honest": [],
+        "status": "blocked"
+      }
+    },
+    "nd": {
+      "name": "Ndebele",
+      "speakerReviewer": {
+        "required": true,
+        "name": null
+      },
+      "speakerAuthoredPhrasesRequired": true,
+      "starterPhrases": [],
+      "productionPhrases": [],
+      "coverage": {
+        "minimumVerifiedPhraseCount": 8,
+        "verifiedPhraseCount": 0,
+        "remainingVerifiedPhraseCount": 8,
+        "coveredVerifiedSignalIds": [],
+        "missingVerifiedSignalIds": [
+          "UPFRONT_FEE",
+          "CREDENTIAL_REQUEST",
+          "URGENCY",
+          "SECRECY",
+          "PRIZE_WIN",
+          "MONEY_REVERSAL",
+          "RISKY_PAYMENT_METHOD",
+          "OFF_PLATFORM"
+        ],
+        "status": "blocked"
+      },
+      "messageSamples": {
+        "requiredScamCount": 3,
+        "requiredHonestCount": 3,
+        "scam": [],
+        "honest": [],
+        "status": "blocked"
+      }
+    },
+    "zu": {
+      "name": "Zulu",
+      "speakerReviewer": {
+        "required": true,
+        "name": null
+      },
+      "speakerAuthoredPhrasesRequired": false,
+      "starterPhrases": [
+        {
+          "text": "thumela imali",
+          "signalId": "RISKY_PAYMENT_METHOD",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "ngokushesha",
+          "signalId": "URGENCY",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "uwinile",
+          "signalId": "PRIZE_WIN",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        }
+      ],
+      "productionPhrases": [],
+      "coverage": {
+        "minimumVerifiedPhraseCount": 8,
+        "verifiedPhraseCount": 0,
+        "remainingVerifiedPhraseCount": 8,
+        "coveredVerifiedSignalIds": [],
+        "missingVerifiedSignalIds": [
+          "UPFRONT_FEE",
+          "CREDENTIAL_REQUEST",
+          "URGENCY",
+          "SECRECY",
+          "PRIZE_WIN",
+          "MONEY_REVERSAL",
+          "RISKY_PAYMENT_METHOD",
+          "OFF_PLATFORM"
+        ],
+        "status": "blocked"
+      },
+      "messageSamples": {
+        "requiredScamCount": 3,
+        "requiredHonestCount": 3,
+        "scam": [],
+        "honest": [],
+        "status": "blocked"
+      }
+    },
+    "pt": {
+      "name": "Portuguese",
+      "speakerReviewer": {
+        "required": true,
+        "name": null
+      },
+      "speakerAuthoredPhrasesRequired": false,
+      "starterPhrases": [
+        {
+          "text": "pague uma taxa",
+          "signalId": "UPFRONT_FEE",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "urgente",
+          "signalId": "URGENCY",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "ganhou",
+          "signalId": "PRIZE_WIN",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "não conte a ninguém",
+          "signalId": "SECRECY",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        }
+      ],
+      "productionPhrases": [],
+      "coverage": {
+        "minimumVerifiedPhraseCount": 8,
+        "verifiedPhraseCount": 0,
+        "remainingVerifiedPhraseCount": 8,
+        "coveredVerifiedSignalIds": [],
+        "missingVerifiedSignalIds": [
+          "UPFRONT_FEE",
+          "CREDENTIAL_REQUEST",
+          "URGENCY",
+          "SECRECY",
+          "PRIZE_WIN",
+          "MONEY_REVERSAL",
+          "RISKY_PAYMENT_METHOD",
+          "OFF_PLATFORM"
+        ],
+        "status": "blocked"
+      },
+      "messageSamples": {
+        "requiredScamCount": 3,
+        "requiredHonestCount": 3,
+        "scam": [],
+        "honest": [],
+        "status": "blocked"
+      }
+    },
+    "sw": {
+      "name": "Swahili",
+      "speakerReviewer": {
+        "required": true,
+        "name": null
+      },
+      "speakerAuthoredPhrasesRequired": false,
+      "starterPhrases": [
+        {
+          "text": "tuma pesa",
+          "signalId": "RISKY_PAYMENT_METHOD",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "haraka",
+          "signalId": "URGENCY",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "namba ya siri",
+          "signalId": "CREDENTIAL_REQUEST",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "nimetuma kwa makosa",
+          "signalId": "MONEY_REVERSAL",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        },
+        {
+          "text": "umeshinda",
+          "signalId": "PRIZE_WIN",
+          "form": "phrase",
+          "status": "unverified",
+          "verifier": ""
+        }
+      ],
+      "productionPhrases": [],
+      "coverage": {
+        "minimumVerifiedPhraseCount": 8,
+        "verifiedPhraseCount": 0,
+        "remainingVerifiedPhraseCount": 8,
+        "coveredVerifiedSignalIds": [],
+        "missingVerifiedSignalIds": [
+          "UPFRONT_FEE",
+          "CREDENTIAL_REQUEST",
+          "URGENCY",
+          "SECRECY",
+          "PRIZE_WIN",
+          "MONEY_REVERSAL",
+          "RISKY_PAYMENT_METHOD",
+          "OFF_PLATFORM"
+        ],
+        "status": "blocked"
+      },
+      "messageSamples": {
+        "requiredScamCount": 3,
+        "requiredHonestCount": 3,
+        "scam": [],
+        "honest": [],
+        "status": "blocked"
+      }
+    },
+    "en-code-switched": {
+      "name": "Code-switched English",
+      "speakerReviewer": {
+        "required": true,
+        "name": null
+      },
+      "speakerAuthoredPhrasesRequired": false,
+      "starterPhrases": [],
+      "productionPhrases": [],
+      "coverage": {
+        "minimumVerifiedPhraseCount": 8,
+        "verifiedPhraseCount": 0,
+        "remainingVerifiedPhraseCount": 8,
+        "coveredVerifiedSignalIds": [],
+        "missingVerifiedSignalIds": [
+          "UPFRONT_FEE",
+          "CREDENTIAL_REQUEST",
+          "URGENCY",
+          "SECRECY",
+          "PRIZE_WIN",
+          "MONEY_REVERSAL",
+          "RISKY_PAYMENT_METHOD",
+          "OFF_PLATFORM"
+        ],
+        "status": "blocked"
+      },
+      "messageSamples": {
+        "requiredScamCount": 3,
+        "requiredHonestCount": 3,
+        "scam": [],
+        "honest": [],
+        "status": "blocked"
+      }
+    }
+  }
+}
