@@ -4,8 +4,10 @@ import {
   matchMessageSignals,
   MESSAGE_RULES,
   normalizeMessage,
+  type Lang,
   type Signal,
 } from "../src/engine";
+import { LANGUAGE_LEXICON_SEEDS } from "../src/lexicon";
 
 const positiveExamples: Record<string, string[]> = {
   CREDENTIAL_REQUEST: [
@@ -221,6 +223,44 @@ describe("message normalization and API", () => {
     ).toBe(false);
   });
 
+  it("keeps unverified multilingual starter phrases out of message signals", () => {
+    const languageCodes = [
+      "sn",
+      "nd",
+      "zu",
+      "pt",
+      "sw",
+      "en-code-switched",
+    ] as const;
+    for (const languageCode of languageCodes) {
+      const language = LANGUAGE_LEXICON_SEEDS.languages[languageCode];
+      const selectedLanguage = languageCode === "en-code-switched"
+        ? "en"
+        : languageCode;
+      for (const phrase of language.starterPhrases) {
+        expect(matchMessageSignals(phrase.text, selectedLanguage)).toEqual([]);
+      }
+    }
+  });
+
+  it("retains English signals in mixed-language messages without matching unverified phrases", () => {
+    expect(
+      matchMessageSignals(
+        "thumela imali, please send your password so I can verify the account",
+        "zu",
+      ).map(({ id }) => id),
+    ).toEqual(["CREDENTIAL_REQUEST"]);
+  });
+
+  it("keeps honest English negatives clear with a non-English language selected", () => {
+    expect(
+      matchMessageSignals(
+        "Never share your password or login code with anyone.",
+        "pt",
+      ),
+    ).toEqual([]);
+  });
+
   it("keeps analyseMessage's public result shape without scoring", () => {
     const result = analyseMessage(
       "Please send your password so I can verify the account.",
@@ -238,17 +278,20 @@ describe("message normalization and API", () => {
   it("matches a 20,000-character message in under 50 ms", () => {
     const suffix = " You have won a prize!";
     const message = `${"x".repeat(20_000 - suffix.length)}${suffix}`;
-    const samples: number[] = [];
+    const languages: Lang[] = ["en", "sn", "nd", "zu", "pt", "sw"];
 
-    matchMessageSignals(message);
-    matchMessageSignals(message);
-    for (let iteration = 0; iteration < 7; iteration += 1) {
-      const start = performance.now();
-      matchMessageSignals(message);
-      samples.push(performance.now() - start);
+    for (const language of languages) {
+      const samples: number[] = [];
+      matchMessageSignals(message, language);
+      matchMessageSignals(message, language);
+      for (let iteration = 0; iteration < 7; iteration += 1) {
+        const start = performance.now();
+        matchMessageSignals(message, language);
+        samples.push(performance.now() - start);
+      }
+
+      samples.sort((left, right) => left - right);
+      expect(samples[3], language).toBeLessThan(50);
     }
-
-    samples.sort((left, right) => left - right);
-    expect(samples[3]).toBeLessThan(50);
   });
 });
