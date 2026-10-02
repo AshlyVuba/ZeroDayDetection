@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "lint": "eslint eslint.config.js vite.config.js",
+    "lint": "eslint eslint.config.js vite.config.js src/main.jsx src/pwa.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
