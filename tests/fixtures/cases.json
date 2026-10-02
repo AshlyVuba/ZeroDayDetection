@@ -1,0 +1,96 @@
+[
+  {
+    "id": "case-01",
+    "kind": "message",
+    "text": "Congratulations! You are selected for a cleaning job in Cape Town. Pay R450 admin fee via eWallet to confirm your placement. Do not tell anyone.",
+    "expectedBands": ["high"],
+    "expectedSignals": ["UPFRONT_FEE", "SECRECY", "RISKY_PAYMENT_METHOD"]
+  },
+  {
+    "id": "case-02",
+    "kind": "message",
+    "text": "Dear customer, your account will be blocked in 24 hours. Verify now: bit.ly/x1 and enter your PIN.",
+    "expectedBands": ["high"],
+    "expectedSignals": ["CREDENTIAL_REQUEST", "URGENCY", "SHORTENED_LINK"]
+  },
+  {
+    "id": "case-03",
+    "kind": "message",
+    "text": "Hi, I sent R300 to your number by mistake, please send it back.",
+    "expectedBands": ["medium", "high"],
+    "expectedSignals": ["MONEY_REVERSAL"]
+  },
+  {
+    "id": "case-04",
+    "kind": "message",
+    "text": "Hi my love, I'm stuck at the airport. Please buy gift cards for me, I'll pay you back.",
+    "expectedBands": ["high"],
+    "expectedSignals": ["ROMANCE_MONEY", "RISKY_PAYMENT_METHOD"]
+  },
+  {
+    "id": "case-05",
+    "kind": "message",
+    "text": "Earn R5,000 a week working from home, no experience, join our WhatsApp group.",
+    "expectedBands": ["medium", "high"],
+    "expectedSignals": ["TOO_GOOD_PAY", "OFF_PLATFORM"]
+  },
+  {
+    "id": "case-06",
+    "kind": "message",
+    "text": "You won R50,000 in the airtime promo. Call to claim. Pay R200 processing.",
+    "expectedBands": ["high"],
+    "expectedSignals": ["PRIZE_WIN", "UPFRONT_FEE"]
+  },
+  {
+    "id": "case-07",
+    "kind": "message",
+    "text": "Can you create a Mukuru order with your account for me? I'll pay you cash.",
+    "expectedBands": ["low"],
+    "expectedSignals": []
+  },
+  {
+    "id": "case-08",
+    "kind": "message",
+    "text": "Your interview is Monday 10am at 12 Main Road. Bring your ID and CV. No fees apply.",
+    "expectedBands": ["low"],
+    "expectedSignals": []
+  },
+  {
+    "id": "case-09",
+    "kind": "message",
+    "text": "Your Mukuru transfer of R500 to Tendai was collected. Thank you.",
+    "expectedBands": ["low"],
+    "expectedSignals": []
+  },
+  {
+    "id": "case-10",
+    "kind": "message",
+    "text": "Are you coming to church on Sunday?",
+    "expectedBands": ["low"],
+    "expectedSignals": []
+  },
+  {
+    "id": "case-11",
+    "kind": "transaction",
+    "scenario": "A R450 payment to a new recipient at 02:30, 20 minutes after the message in case-01.",
+    "amount": 450,
+    "currency": "ZAR",
+    "recipientType": "new",
+    "timeOfDay": "02:30",
+    "relatedMessageCaseId": "case-01",
+    "minutesAfterRelatedMessage": 20,
+    "expectedBands": ["high"],
+    "expectedSignals": ["NEW_RECIPIENT", "UNUSUAL_TIME", "RECENT_RISKY_MESSAGE"]
+  },
+  {
+    "id": "case-12",
+    "kind": "transaction",
+    "scenario": "A usual R200 midday payment to a known recipient.",
+    "amount": 200,
+    "currency": "ZAR",
+    "recipientType": "known",
+    "timeOfDay": "midday",
+    "expectedBands": ["low"],
+    "expectedSignals": []
+  }
+]
