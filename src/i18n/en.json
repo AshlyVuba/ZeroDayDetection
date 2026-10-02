@@ -1,0 +1,91 @@
+{
+  "band": {
+    "low": "Few signs raised concern",
+    "medium": "Some signs raised concern",
+    "high": "Several signs raised concern"
+  },
+  "reason": {
+    "CREDENTIAL_REQUEST": "This message asks for private sign-in details.",
+    "CREATE_ORDER_FOR_THEM": "Someone wants you to place an order on their behalf.",
+    "UPFRONT_FEE": "You are asked to pay before receiving what was promised.",
+    "ROMANCE_MONEY": "Someone you met online asks you for money.",
+    "MONEY_REVERSAL": "A sender asks you to return money after a payment.",
+    "PRIZE_WIN": "The message says you won something you did not enter.",
+    "LOOKALIKE_LINK": "This link looks like it may lead to a copied website.",
+    "SECRECY": "You are asked to keep this request from others.",
+    "TOO_GOOD_PAY": "The promised pay seems unusually high for the work.",
+    "IMPERSONATION": "The sender claims to be someone you may know.",
+    "RISKY_PAYMENT_METHOD": "The requested payment method may be hard to reverse.",
+    "SHORTENED_LINK": "This shortened link hides the website address.",
+    "URGENCY": "The message pressures you to act right away.",
+    "OFF_PLATFORM": "The sender asks you to continue outside this service.",
+    "RECENT_RISKY_MESSAGE": "A recent message raised concerns about this payment.",
+    "AMOUNT_SPIKE": "This payment is larger than your usual payments.",
+    "RAPID_REPEAT": "Several payments to this person happened close together.",
+    "NEW_RECIPIENT": "You have not paid this recipient before.",
+    "FIRST_LARGE": "This is your first payment of this size.",
+    "FEE_LIKE_AMOUNT": "The amount looks like a fee often used in scams.",
+    "ODD_HOUR": "This payment is happening at an unusual time for you."
+  },
+  "steps": {
+    "job_scam": [
+      "Pause before paying for a job or training.",
+      "Check the company and role using a source you find yourself.",
+      "Ask someone you trust to review the offer."
+    ],
+    "phishing": [
+      "Do not use the link in the message.",
+      "Open the service using an app or address you already know.",
+      "Change your password if you shared it."
+    ],
+    "romance_scam": [
+      "Do not send money or gift cards to someone you have not met.",
+      "Take time to check their story with someone you trust."
+    ],
+    "mobile_money_reversal": [
+      "Check your balance in the payment app.",
+      "Do not send money back based only on a message.",
+      "Contact your payment provider through its app or a statement."
+    ],
+    "prize_scam": [
+      "Do not pay a fee to claim a prize.",
+      "Check whether you entered the contest.",
+      "Ask someone you trust before sharing details."
+    ],
+    "impersonation": [
+      "Contact the person using a number or app you already have.",
+      "Do not send money or codes until you confirm.",
+      "Ask someone you trust to review the request."
+    ],
+    "mule_request": [
+      "Do not receive or move money for someone else.",
+      "Do not share your account or payment details.",
+      "If you already moved money, contact your bank through its app or a number on your card."
+    ]
+  },
+  "ui": {
+    "appName": "ZeroDay Detection",
+    "messageTab": "Check a message",
+    "paymentTab": "Check a payment",
+    "messageLabel": "Message text",
+    "messagePlaceholder": "Paste a message here",
+    "paymentAmountLabel": "Payment amount",
+    "recipientLabel": "Recipient",
+    "checkButton": "Check now",
+    "checking": "Checking...",
+    "resultTitle": "What we noticed",
+    "reasonsTitle": "Why this was flagged",
+    "stepsTitle": "What you can do",
+    "dismissButton": "Close",
+    "privacyNote": "Your message stays on this device."
+  },
+  "errors": {
+    "loadFailed": "We could not load this information. Try again.",
+    "analysisFailed": "We could not check this message. Please try again.",
+    "emptyMessage": "Enter a message to check.",
+    "invalidAmount": "Enter a payment amount greater than zero.",
+    "offline": "You appear to be offline. Try again when connected.",
+    "saveFailed": "We could not save this setting.",
+    "unknown": "Something went wrong. Try again."
+  }
+}
