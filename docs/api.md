@@ -14,8 +14,39 @@ npm ci
 npm run start:api
 ```
 
-The API listens on port `3000` by default. Set `PORT` to use another port.
-`npm run start:api` builds the production server bundle before starting it.
+`npm run build` builds the production PWA into `dist/`; `npm run build:api`
+builds the Node server bundle into `dist-api/`; and `npm run build:deploy`
+builds both. `npm run start:api` builds both and starts the combined app/API
+server. It serves the PWA from `dist/` and the `/api/...` routes from the same
+origin. The server listens on `0.0.0.0` using `PORT`, defaulting to `3000`, so
+it can run behind an external HTTPS terminator.
+
+The Node server does not terminate HTTPS. Production deployments must provide
+HTTPS at the edge and forward traffic to the server over an appropriately
+protected network. No hosting provider or production deployment target is
+configured by this repository.
+
+## Trusted proxy configuration
+
+The rate limiter keys requests by the TCP socket peer by default. Forwarded
+client addresses are ignored unless the immediate peer is explicitly trusted.
+Set `TRUSTED_PROXIES` to a comma-separated list of exact IPv4 or IPv6 peer
+addresses (for example, `127.0.0.1,2001:db8::10`). This is an address allowlist,
+not a CIDR or hostname list. Invalid entries prevent the server from starting.
+
+Only a single valid IP address in `X-Forwarded-For` is honored, and only when
+the socket peer matches that allowlist. Configure each trusted proxy to
+**replace** any inbound `X-Forwarded-For` header with the original client IP;
+do not append to an untrusted value. Requests with multiple, malformed, or
+absent forwarded addresses continue to use the socket peer. Do not trust a
+proxy address reachable by untrusted clients.
+
+Static hashed Vite assets are served with a one-year immutable cache lifetime.
+The HTML entry point, web manifest, service worker, and Workbox runtime are
+served with `Cache-Control: no-cache` so app and worker updates are revalidated.
+SPA fallback is limited to requests that accept HTML and identify themselves
+as browser document navigation; missing assets and `/api/...` paths do not
+receive the app shell.
 
 ## Routes
 

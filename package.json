@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build:api": "vite build --config vite.api.config.js",
-    "start:api": "npm run build:api && node dist-api/server.js",
+    "build:deploy": "npm run build && npm run build:api",
+    "start:api": "npm run build:deploy && node dist-api/server.js",
     "build": "vite build",
     "preview": "vite preview",
     "validate:i18n": "node scripts/validate-i18n.mjs",
