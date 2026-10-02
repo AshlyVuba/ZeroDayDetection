@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "validate:i18n": "node scripts/validate-i18n.mjs",
     "test": "vitest run",
-    "lint": "eslint eslint.config.js vite.config.js src/main.jsx src/pwa.js",
+    "lint": "eslint eslint.config.js vite.config.js src/main.jsx src/pwa.js src/storage/StorageAccess.jsx",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
