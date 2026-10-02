@@ -5,7 +5,12 @@ const actions = [
   { label: "Check a payment", icon: "02" },
 ];
 
-export default function Home() {
+export default function Home({
+  isOnline = true,
+  offlineReady = false,
+  updateAvailable = false,
+  refresh,
+}) {
   return (
     <div className="home-shell">
       <header className="site-header">
@@ -62,7 +67,19 @@ export default function Home() {
           data-slot="offline-banner"
         >
           <span className="offline-indicator" aria-hidden="true" />
-          <span>Offline status will appear here.</span>
+          <span className="offline-message">
+            {isOnline ? "You're online." : "You're offline."}
+            {offlineReady ? " This app is ready to use offline." : ""}
+          </span>
+          {updateAvailable ? (
+            <button
+              className="offline-update"
+              type="button"
+              onClick={refresh}
+            >
+              Refresh to update
+            </button>
+          ) : null}
         </aside>
       </main>
 

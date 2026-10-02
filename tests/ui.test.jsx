@@ -23,10 +23,21 @@ describe("Home screen", () => {
   });
 
   it("exposes a live connection-status banner slot", () => {
-    const markup = renderToStaticMarkup(<Home />);
+    const markup = renderToStaticMarkup(
+      <Home isOnline={false} offlineReady={true} />,
+    );
 
     expect(markup).toContain('data-slot="offline-banner"');
     expect(markup).toContain('aria-live="polite"');
-    expect(markup).toContain("Offline status will appear here.");
+    expect(markup).toContain("You&#x27;re offline.");
+    expect(markup).toContain("This app is ready to use offline.");
+  });
+
+  it("shows an update action when a service worker update is available", () => {
+    const markup = renderToStaticMarkup(
+      <Home isOnline={true} updateAvailable={true} refresh={() => {}} />,
+    );
+
+    expect(markup).toContain("Refresh to update");
   });
 });
