@@ -133,6 +133,16 @@ export class StorageSession {
     this.#mode = "memory";
   }
 
+  startMemoryOnly(): void {
+    this.#crypto.lock();
+    this.#memory = {
+      transactions: [],
+      recentRisk: null,
+      settings: null,
+    };
+    this.#mode = "memory";
+  }
+
   lock(): void {
     this.#crypto.lock();
     this.#memory = undefined;

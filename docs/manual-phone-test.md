@@ -1,17 +1,27 @@
 # Manual phone test
 
-**Status: TODO — blocked until the application UI and detection engine are
-implemented.** The current automated fixture test checks data shape only; it
-does not run these cases through a working detector. Do not record a pass for
-an unavailable screen or scaffold result.
+**Status: TODO — flows are implemented; physical-device checks have not been
+performed.** Automated checks are not a substitute for real-phone, screen
+reader, offline, or network-inspection testing. Do not record these cases as
+passed until manually completed.
 
 ## Before testing
 
 - Use a test build and invented fixture data only. Do not paste real messages,
   names, phone numbers, account details, or other personal information.
 - Confirm the app explains that analysis stays on-device. Inspect network
-  activity during message entry and analysis; no message text should leave the
-  phone.
+  activity during message entry and local Worker analysis; no message text
+  should leave the phone. Separately verify that the optional API request is
+  sent only after activating its clearly labelled button, and that cancelling
+  or ignoring it leaves the local result intact.
+- Verify first-run PIN setup, PIN unlock after reload, lock and idle-lock
+  behavior, and the explicitly chosen memory-only option. Confirm memory-only
+  history/risk metadata clears at session end and does not overwrite encrypted
+  saved records.
+- For payments, verify fields are editable, saved history reloads only after
+  unlocking, and a recent risky message links only its band/type/time (never
+  its text). If testing the optional payment API, confirm its disclosure names
+  the recipient, payment details, history, and minimal risk metadata.
 - When available, enable airplane mode and confirm the app can still open and
   analyse the fixture cases offline. Note any platform feature that requires a
   connection rather than treating it as a failed offline analysis.
@@ -39,7 +49,7 @@ signal explanations against `expectedBands` and `expectedSignals`. Cases 3 and
 | 8 | Low | None | TODO |
 | 9 | Low | None | TODO |
 | 10 | Low | None | TODO |
-| 11 | High; new-recipient payment at 02:30, 20 minutes after case 1 | NEW_RECIPIENT, UNUSUAL_TIME, RECENT_RISKY_MESSAGE | TODO |
+| 11 | High; new-recipient payment at 02:30, 20 minutes after case 1 | NEW_RECIPIENT, ODD_HOUR, RECENT_RISKY_MESSAGE | TODO |
 | 12 | Low; known recipient, usual amount, midday | None | TODO |
 
 ## Record results

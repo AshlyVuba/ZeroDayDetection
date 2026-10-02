@@ -60,7 +60,35 @@ function createSourceIndexMap(original: string): number[] {
   return sourceIndices;
 }
 
+function normalizeAsciiMessage(original: string): NormalizedMessage {
+  const characters: string[] = [];
+  const sourceIndices: number[] = [];
+  let pendingWhitespace: number | undefined;
+
+  for (let index = 0; index < original.length; index += 1) {
+    const code = original.charCodeAt(index);
+    if ((code >= 9 && code <= 13) || code === 32) {
+      if (characters.length > 0) pendingWhitespace ??= index;
+      continue;
+    }
+    if (pendingWhitespace !== undefined) {
+      characters.push(" ");
+      sourceIndices.push(pendingWhitespace);
+      pendingWhitespace = undefined;
+    }
+    characters.push(original[index].toLowerCase());
+    sourceIndices.push(index);
+  }
+
+  const text = characters.join("");
+  return { text, accentStripped: text, sourceIndices };
+}
+
 export function normalizeMessage(original: string): NormalizedMessage {
+  if (/^[\x00-\x7f]*$/u.test(original)) {
+    return normalizeAsciiMessage(original);
+  }
+
   const text = original
     .normalize("NFKC")
     .replace(ZERO_WIDTH_CHARACTERS, "")

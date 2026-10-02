@@ -9,7 +9,7 @@ describe("storage access interface", () => {
       <StorageAccess session={{ getState: async () => "setup" }} />,
     );
 
-    expect(markup).toContain("Loading secure storage");
+    expect(markup).toContain("Checking private storage");
     expect(markup).toContain('aria-live="polite"');
   });
 });

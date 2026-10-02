@@ -6,6 +6,7 @@ import {
   createTranslator,
   formatCurrency,
   formatNumber,
+  getResultGuidance,
   getInitialLanguage,
   isBetaLanguage,
   persistLanguage,
@@ -67,5 +68,22 @@ describe("language selection and translations", () => {
     expect(formatCurrency(12.5, "EUR", "pt")).toBe(
       new Intl.NumberFormat("pt", { style: "currency", currency: "EUR" }).format(12.5),
     );
+  });
+
+  it("uses translated signal reasons and available next steps in result cards", () => {
+    const guidance = getResultGuidance({
+      score: 80,
+      band: "high",
+      scamType: "phishing",
+      signals: [
+        { id: "CREDENTIAL_REQUEST", weight: 0.8 },
+        { id: "URGENCY", weight: 0.2 },
+      ],
+    }, "pt");
+
+    expect(guidance.reasons[0]).toBe(
+      "Esta mensagem pede dados privados para iniciar sessão.",
+    );
+    expect(guidance.nextSteps).toContain("Não use o link da mensagem.");
   });
 });

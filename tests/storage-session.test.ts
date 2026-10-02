@@ -147,6 +147,40 @@ describe("encrypted storage session", () => {
     await session.close();
   });
 
+  it("keeps saved records locked when explicitly starting a memory-only session", async () => {
+    const persistence = new MemoryEncryptedPersistence();
+    const session = new StorageSession({ persistence });
+    const savedTransaction: Transaction = {
+      id: "saved",
+      recipientId: "private-recipient",
+      amount: 75,
+      currency: "ZAR",
+      timestamp: 1_735_000_000,
+    };
+
+    await session.setupPin(PIN);
+    await session.saveTransactions([savedTransaction]);
+    const encryptedBeforeMemoryMode = JSON.stringify([...persistence.entries]);
+    session.lock();
+    await session.startMemoryOnly();
+
+    await expect(session.getState()).resolves.toBe("memory-only");
+    await expect(session.getTransactions()).resolves.toEqual([]);
+    await session.saveTransactions([
+      { ...savedTransaction, id: "temporary", recipientId: "memory-recipient" },
+    ]);
+    expect(JSON.stringify([...persistence.entries])).toBe(encryptedBeforeMemoryMode);
+    await expect(session.getTransactions()).resolves.toEqual([
+      { ...savedTransaction, id: "temporary", recipientId: "memory-recipient" },
+    ]);
+
+    session.lock();
+    await expect(session.getState()).resolves.toBe("locked");
+    await expect(session.unlock(PIN)).resolves.toBeUndefined();
+    await expect(session.getTransactions()).resolves.toEqual([savedTransaction]);
+    await session.close();
+  }, 30_000);
+
   it("reports the crypto provider's idle lock without adding another timer", async () => {
     vi.useFakeTimers();
     const persistence = new MemoryEncryptedPersistence();

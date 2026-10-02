@@ -12,14 +12,24 @@ describe("Home screen", () => {
     expect(markup).toContain("English — Beta");
   });
 
-  it("shows both actions as unavailable instead of implying checks run", () => {
+  it("renders message and payment checks as accessible active actions", () => {
     const markup = renderToStaticMarkup(<Home />);
 
     expect(markup).toContain("Check a message");
     expect(markup).toContain("Check a payment");
-    expect(markup.match(/disabled/g)).toHaveLength(2);
-    expect(markup).toContain("These checks are not available yet.");
-    expect(markup).toContain("Coming soon");
+    expect(markup).not.toContain("disabled");
+    expect(markup).toContain("Nothing is sent to the API unless you choose");
+    expect(markup).toContain("Lock app");
+  });
+
+  it("does not expose an API submission before a user enters a flow", () => {
+    const markup = renderToStaticMarkup(
+      <Home session={{}} />,
+    );
+
+    expect(markup).toContain("Check a message");
+    expect(markup).not.toContain("Send message to optional API");
+    expect(markup).not.toContain("<textarea");
   });
 
   it("exposes a live connection-status banner slot", () => {
