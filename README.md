@@ -25,9 +25,11 @@ scripts for local development and verification.
 
 - A Vite application that renders a placeholder page titled **ZeroDay Detection**.
 - Shared TypeScript types for risk results, signals, languages, and transactions.
-- English message matching for 12 phrase-based warning signals and local URL
-  heuristics for lookalike and shortened links, with bounded original-text
-  evidence; transaction analysis remains a scaffold.
+- A standalone Web Worker analysis bridge with per-request workers, defensive
+  message/result validation, a three-second timeout, cleanup, and a safe
+  failure outcome. The bridge is not yet connected to the UI.
+- English message matching for 12 non-link warning signals, with bounded
+  original-text evidence; transaction analysis remains a scaffold.
 - An explanation entry point that returns a fixed placeholder explanation and
   general next step.
 - Three Vitest checks for those scaffold contracts.
@@ -48,6 +50,9 @@ scripts for local development and verification.
 - Scored message analysis, transaction checks, broader detection coverage,
   evidence-based explanations, and practical next steps.
 - Complete user-facing flows for entering and checking messages or payments.
+- UI integration and demo testing for the Worker bridge, pending ZD-08.
+- Interface and educational content in English (`en`), Shona (`sn`), Northern
+  Ndebele (`nd`), isiZulu (`zu`), Portuguese (`pt`), and Swahili (`sw`).
 - Translation of the Home screen and remaining interface/educational copy in
   English (`en`), Shona (`sn`), Northern Ndebele (`nd`), isiZulu (`zu`),
   Portuguese (`pt`), and Swahili (`sw`). The selector is localized; Home copy
@@ -136,6 +141,7 @@ clean, reproducible dependency install.
 │   └── main.jsx               # Current placeholder application
 ├── tests/
 │   ├── engine.test.ts         # Shared engine contract tests
+│   ├── worker-bridge.test.ts  # Worker request, failure, timeout, and cleanup tests
 │   └── message.test.ts        # Message rules and normalization tests
 ├── index.html                 # Browser document and application entry point
 ├── package.json               # Scripts and pinned dependencies
