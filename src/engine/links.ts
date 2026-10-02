@@ -65,6 +65,50 @@ function isRawIp(hostname: string): boolean {
     .every((octet) => Number(octet) >= 0 && Number(octet) <= 255);
 }
 
+function registrableDomain(hostname: string): string {
+  const labels = hostname.split(".");
+  const suffix = labels.slice(-2).join(".");
+  const hasSecondLevelSuffix =
+    suffix === "co.za" || suffix === "org.za" || suffix === "gov.za";
+  return labels.slice(hasSecondLevelSuffix ? -3 : -2).join(".");
+}
+
+function editDistanceAtMostOne(left: string, right: string): boolean {
+  if (Math.abs(left.length - right.length) > 1) return false;
+  let leftIndex = 0;
+  let rightIndex = 0;
+  let edits = 0;
+
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] === right[rightIndex]) {
+      leftIndex += 1;
+      rightIndex += 1;
+      continue;
+    }
+    edits += 1;
+    if (edits > 1) return false;
+    if (left.length > right.length) leftIndex += 1;
+    else if (right.length > left.length) rightIndex += 1;
+    else {
+      leftIndex += 1;
+      rightIndex += 1;
+    }
+  }
+
+  return edits + Number(leftIndex < left.length || rightIndex < right.length) <= 1;
+}
+
+function hasNearAllowlistedDomain(hostname: string): boolean {
+  const domain = registrableDomain(hostname);
+  return LINK_ANALYSIS_CONFIG.allowlistedDomains.some((trustedDomain) => {
+    const trustedRoot = registrableDomain(trustedDomain);
+    return (
+      hostname.startsWith(`${trustedDomain}.`) ||
+      (domain !== trustedRoot && editDistanceAtMostOne(domain, trustedRoot))
+    );
+  });
+}
+
 export function matchLinkSignals(message: string): Signal[] {
   const urls = extractUrls(message);
   const signals: Signal[] = [];
@@ -87,6 +131,7 @@ export function matchLinkSignals(message: string): Signal[] {
     if (isAllowlisted(url.hostname)) return false;
     return (
       containsBrandTerm(url.hostname) ||
+      hasNearAllowlistedDomain(url.hostname) ||
       url.hostname.split(".").some((label) => label.startsWith("xn--")) ||
       isRawIp(url.hostname) ||
       (url.protocol !== "https:" && hasCredentialTerms)

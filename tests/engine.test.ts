@@ -32,11 +32,13 @@ describe("engine scaffold", () => {
     });
   });
 
-  it("provides an explanation and a next step", () => {
+  it("provides a signal-grounded explanation and a next step", () => {
     expect(explain(analyseMessage("sample message"), "en")).toEqual({
-      headline: "The explanation is not available yet.",
+      headline: "No clear warning signs were found.",
       reasons: [],
-      nextSteps: ["Check with someone you trust before you act."],
+      nextSteps: [
+        "Check the request with someone you trust using contact details you already know.",
+      ],
     });
   });
 });

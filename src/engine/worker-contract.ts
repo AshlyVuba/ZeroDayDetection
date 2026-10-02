@@ -1,4 +1,5 @@
-import type { Lang, RiskResult, Transaction } from "./types";
+import type { Lang, RecentRiskRecord, RiskBand, RiskResult, ScamType, Transaction } from "./types";
+import { MINOR_UNITS_PER_MAJOR_UNIT } from "./config";
 
 export const ANALYSIS_FAILURE_MESSAGE =
   "We couldn't check this. Be careful and verify.";
@@ -13,7 +14,7 @@ export interface MessageAnalysisPayload {
 export interface TransactionAnalysisPayload {
   transaction: Transaction;
   history: Transaction[];
-  recentMessage?: RiskResult;
+  recentMessage?: RecentRiskRecord;
 }
 
 export type AnalysisPayloadByKind = {
@@ -120,16 +121,26 @@ function isLang(value: unknown): value is Lang {
 function isTransaction(value: unknown): value is Transaction {
   if (!isPlainData(value) || value === null || Array.isArray(value)) return false;
   const transaction = value as Record<string, unknown>;
-  return (
+  const isValidTransaction =
     hasKeys(transaction, ["id", "recipientId", "amount", "currency", "timestamp"]) &&
     typeof transaction.id === "string" &&
     typeof transaction.recipientId === "string" &&
+    transaction.recipientId.trim().length > 0 &&
     typeof transaction.amount === "number" &&
     Number.isFinite(transaction.amount) &&
+    transaction.amount >= 0 &&
     typeof transaction.currency === "string" &&
+    Object.hasOwn(MINOR_UNITS_PER_MAJOR_UNIT, transaction.currency) &&
     typeof transaction.timestamp === "number" &&
-    Number.isFinite(transaction.timestamp)
-  );
+    Number.isFinite(transaction.timestamp) &&
+    Math.abs(transaction.timestamp) <= 8.64e15;
+  if (!isValidTransaction) return false;
+  const unitsPerMajor =
+    MINOR_UNITS_PER_MAJOR_UNIT[
+      transaction.currency as keyof typeof MINOR_UNITS_PER_MAJOR_UNIT
+    ];
+  const amount = transaction.amount as number;
+  return Number.isSafeInteger(Math.round(amount * unitsPerMajor));
 }
 
 function isSignal(value: unknown): boolean {
@@ -142,6 +153,33 @@ function isSignal(value: unknown): boolean {
     Number.isFinite(signal.weight) &&
     (!Object.hasOwn(signal, "evidence") ||
       typeof signal.evidence === "string")
+  );
+}
+
+function isScamType(value: unknown): value is ScamType {
+  return (
+    value === "job_scam" ||
+    value === "phishing" ||
+    value === "romance_scam" ||
+    value === "mobile_money_reversal" ||
+    value === "mule_request" ||
+    value === "impersonation" ||
+    value === "prize_scam"
+  );
+}
+
+function isRecentRiskRecord(value: unknown): value is RecentRiskRecord {
+  if (!isPlainData(value) || value === null || Array.isArray(value)) return false;
+  const recentRisk = value as Record<string, unknown>;
+  return (
+    hasKeys(recentRisk, ["band", "timestamp"], ["scamType"]) &&
+    (recentRisk.band === "low" ||
+      recentRisk.band === "medium" ||
+      recentRisk.band === "high") &&
+    typeof recentRisk.timestamp === "number" &&
+    Number.isFinite(recentRisk.timestamp) &&
+    (!Object.hasOwn(recentRisk, "scamType") ||
+      isScamType(recentRisk.scamType))
   );
 }
 
@@ -191,7 +229,7 @@ export function isAnalysisRequest(value: unknown): value is AnalysisRequest {
       Array.isArray(payload.history) &&
       payload.history.every(isTransaction) &&
       (!Object.hasOwn(payload, "recentMessage") ||
-        isRiskResult(payload.recentMessage))
+        isRecentRiskRecord(payload.recentMessage))
     );
   }
   return false;

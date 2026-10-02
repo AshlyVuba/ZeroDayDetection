@@ -2,6 +2,7 @@ export const SPIKE_MULTIPLIER = 3;
 export const MIN_SPIKE_HISTORY = 3;
 export const RAPID_COUNT = 3;
 export const RAPID_MINUTES = 60;
+export const RECENT_RISK_WINDOW_MINUTES = 60;
 export const ODD_HOUR_START = 22;
 export const ODD_HOUR_END = 6;
 
@@ -30,6 +31,7 @@ export const TRANSACTION_SCORING_CONFIG = {
     RAPID_REPEAT: 0.3,
     FEE_LIKE_AMOUNT: 0.2,
     ODD_HOUR: 0.15,
+    RECENT_RISKY_MESSAGE: 0.4,
   },
 } as const;
 
@@ -61,7 +63,15 @@ export const MESSAGE_SCORING_CONFIG = {
 } as const;
 
 export const LINK_ANALYSIS_CONFIG = {
-  allowlistedDomains: ["mukuru.com", "capitec.co.za", "fnb.co.za"],
+  allowlistedDomains: [
+    "absa.co.za",
+    "capitec.co.za",
+    "fnb.co.za",
+    "mukuru.com",
+    "nedbank.co.za",
+    "sars.gov.za",
+    "standardbank.co.za",
+  ],
   brandTerms: [
     "mukuru",
     "capitec",

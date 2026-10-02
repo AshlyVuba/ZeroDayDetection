@@ -5,8 +5,9 @@ export {
   MESSAGE_RULES,
   normalizeMessage,
 } from "./message";
-export { matchLinkSignals } from "./links";
 export { scoreSignals } from "./score";
+export { matchLinkSignals } from "./links";
+export { cleanRecentRisk, RECENT_RISK_MAX_AGE_MS } from "./recent-risk";
 export { analyseTransaction } from "./transaction";
 export {
   FEE_LIKE_SETTINGS,
@@ -15,6 +16,7 @@ export {
   MINOR_UNITS_PER_MAJOR_UNIT,
   ODD_HOUR_END,
   ODD_HOUR_START,
+  RECENT_RISK_WINDOW_MINUTES,
   RAPID_COUNT,
   RAPID_MINUTES,
   SPIKE_MULTIPLIER,
@@ -41,4 +43,12 @@ export type {
 } from "./worker-bridge";
 export type { Explanation } from "./explain";
 export type { NormalizedMessage, Rule } from "./message";
-export type { Lang, RiskBand, RiskResult, Signal, Transaction } from "./types";
+export type {
+  Lang,
+  RecentRiskRecord,
+  RiskBand,
+  RiskResult,
+  ScamType,
+  Signal,
+  Transaction,
+} from "./types";

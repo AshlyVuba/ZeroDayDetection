@@ -261,15 +261,15 @@ describe("message normalization and API", () => {
     ).toEqual([]);
   });
 
-  it("keeps analyseMessage's public result shape without scoring", () => {
+  it("scores matched message signals through the shared scorer", () => {
     const result = analyseMessage(
       "Please send your password so I can verify the account.",
     );
     const signals: Signal[] = result.signals;
 
     expect(result).toMatchObject({
-      score: 0,
-      band: "low",
+      score: 80,
+      band: "high",
       signals: [{ id: "CREDENTIAL_REQUEST", weight: 0.8 }],
     });
     expect(signals).toHaveLength(1);
@@ -293,5 +293,34 @@ describe("message normalization and API", () => {
       samples.sort((left, right) => left - right);
       expect(samples[3], language).toBeLessThan(50);
     }
+  });
+});
+
+describe("text-only URL checks", () => {
+  it.each([
+    ["known shortener", "Visit https://bit.ly/x1", "SHORTENED_LINK"],
+    ["another shortener", "Visit tinyurl.com/pay", "SHORTENED_LINK"],
+    ["lookalike spelling", "Visit https://capitac.co.za/login", "LOOKALIKE_LINK"],
+    ["trusted name before a hostile suffix", "Visit https://capitec.co.za.evil.example/login", "LOOKALIKE_LINK"],
+    ["punycode hostname", "Visit https://xn--pple-43d.com", "LOOKALIKE_LINK"],
+    ["raw IPv4 host", "Visit http://192.168.1.4/login", "LOOKALIKE_LINK"],
+    ["uppercase shortener and punctuation", "BIT.LY/x1!", "SHORTENED_LINK"],
+  ])("flags %s without resolving the URL", (_name, text, expectedSignal) => {
+    expect(matchMessageSignals(text).map(({ id }) => id)).toContain(
+      expectedSignal,
+    );
+  });
+
+  it.each([
+    "https://mukuru.com/",
+    "https://capitec.co.za/login",
+    "https://absa.co.za/",
+    "https://nedbank.co.za/",
+    "https://online.standardbank.co.za/",
+    "https://www.fnb.co.za.",
+    "https://sars.gov.za/",
+    "https://example.com/",
+  ])("does not flag an official or ordinary domain: %s", (text) => {
+    expect(matchMessageSignals(text)).toEqual([]);
   });
 });

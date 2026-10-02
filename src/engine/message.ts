@@ -1,4 +1,6 @@
 import { MESSAGE_SCORING_CONFIG } from "./config";
+import { scoreSignals } from "./score";
+import { matchLinkSignals } from "./links";
 import type { Lang, RiskResult, Signal } from "./types";
 import {
   PRODUCTION_LEXICON_BY_LANGUAGE,
@@ -6,7 +8,6 @@ import {
   type LexiconLanguage,
   type ProductionLexiconPhrase,
 } from "../lexicon";
-import { matchLinkSignals } from "./links";
 
 const ZERO_WIDTH_CHARACTERS = /[\u180e\u200b-\u200d\u2060\ufeff]/gu;
 const MARKS = /\p{M}/gu;
@@ -378,17 +379,12 @@ export function matchMessageSignals(text: string, lang?: Lang): Signal[] {
       signals.set(signal.id, signal);
     }
   }
-
   for (const signal of matchLinkSignals(text)) {
-    signals.set(signal.id, signal);
+    if (!signals.has(signal.id)) signals.set(signal.id, signal);
   }
   return [...signals.values()];
 }
 
 export function analyseMessage(text: string, lang?: Lang): RiskResult {
-  return {
-    score: 0,
-    band: "low",
-    signals: matchMessageSignals(text, lang),
-  };
+  return scoreSignals(matchMessageSignals(text, lang));
 }

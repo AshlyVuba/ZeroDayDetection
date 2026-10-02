@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   analyseTransaction,
   normalizeRecipientId,
-  scoreSignals,
   type RiskResult,
   type Transaction,
 } from "../src/engine";
@@ -149,15 +148,28 @@ describe("analyseTransaction", () => {
   });
 
   it("combines the recent-message signals with transaction signals via the shared scorer", () => {
-    const recentMessage = scoreSignals([
-      { id: "UPFRONT_FEE", weight: 0.3 },
-    ]);
+    const recentMessage = {
+      band: "medium" as const,
+      scamType: "job_scam" as const,
+      timestamp: now - 10 * 60_000,
+    };
     const result = analyseTransaction(transaction(), [], recentMessage);
 
     expect(signalIds(result)).toEqual(
-      expect.arrayContaining(["NEW_RECIPIENT", "UPFRONT_FEE"]),
+      expect.arrayContaining(["NEW_RECIPIENT", "RECENT_RISKY_MESSAGE"]),
     );
-    expect(result.score).toBeGreaterThan(recentMessage.score);
+    expect(result.band).toBe("high");
+  });
+
+  it.each([
+    ["low risk", { band: "low" as const, timestamp: now - 10 * 60_000 }],
+    ["expired window", { band: "high" as const, timestamp: now - 61 * 60_000 }],
+    ["phishing excluded", { band: "high" as const, scamType: "phishing" as const, timestamp: now - 10 * 60_000 }],
+    ["future timestamp", { band: "high" as const, timestamp: now + 1 }],
+  ])("does not cross-signal %s", (_name, recentRisk) => {
+    expect(
+      signalIds(analyseTransaction(transaction(), [], recentRisk)),
+    ).not.toContain("RECENT_RISKY_MESSAGE");
   });
 
   it("does not mutate the transaction history or its entries", () => {

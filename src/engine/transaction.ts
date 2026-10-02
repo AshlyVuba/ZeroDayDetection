@@ -4,6 +4,7 @@ import {
   MIN_SPIKE_HISTORY,
   RAPID_COUNT,
   RAPID_MINUTES,
+  RECENT_RISK_WINDOW_MINUTES,
   SPIKE_MULTIPLIER,
   TRANSACTION_SCORING_CONFIG,
 } from "./config";
@@ -15,12 +16,12 @@ import {
   toMinorUnits,
 } from "./transactionHelpers";
 import { scoreSignals } from "./score";
-import type { RiskResult, Transaction } from "./types";
+import type { RecentRiskRecord, RiskResult, Transaction } from "./types";
 
 export function analyseTransaction(
   tx: Transaction,
   history: Transaction[],
-  recentMsg?: RiskResult,
+  recentMsg?: RecentRiskRecord,
 ): RiskResult {
   const signals = [];
   const recipientId = normalizeRecipientId(tx.recipientId);
@@ -120,8 +121,20 @@ export function analyseTransaction(
     });
   }
 
+  if (
+    recentMsg !== undefined &&
+    recentMsg.band !== "low" &&
+    recentMsg.scamType !== "phishing" &&
+    recentMsg.timestamp <= tx.timestamp &&
+    tx.timestamp - recentMsg.timestamp <= RECENT_RISK_WINDOW_MINUTES * 60_000
+  ) {
+    signals.push({
+      id: "RECENT_RISKY_MESSAGE",
+      weight: transactionWeight.RECENT_RISKY_MESSAGE,
+    });
+  }
+
   return scoreSignals([
     ...signals,
-    ...(recentMsg?.signals ?? []),
   ]);
 }

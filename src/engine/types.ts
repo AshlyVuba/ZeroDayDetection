@@ -1,5 +1,13 @@
 export type RiskBand = "low" | "medium" | "high";
 export type Lang = "en" | "sn" | "nd" | "zu" | "pt" | "sw";
+export type ScamType =
+  | "job_scam"
+  | "phishing"
+  | "romance_scam"
+  | "mobile_money_reversal"
+  | "mule_request"
+  | "impersonation"
+  | "prize_scam";
 
 export interface Signal {
   id: string;
@@ -20,4 +28,10 @@ export interface Transaction {
   amount: number;
   currency: string;
   timestamp: number;
+}
+
+export interface RecentRiskRecord {
+  band: RiskBand;
+  timestamp: number;
+  scamType?: ScamType;
 }

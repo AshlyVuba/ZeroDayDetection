@@ -170,8 +170,8 @@ describe("analysis worker dispatch", () => {
         payload: { text: "Please send your password so I can verify." },
       }),
     ).toEqual({
-      score: 0,
-      band: "low",
+      score: 80,
+      band: "high",
       signals: [
         {
           id: "CREDENTIAL_REQUEST",
