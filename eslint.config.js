@@ -6,6 +6,9 @@ export default [
       "src/main.jsx",
       "src/pwa.js",
       "src/storage/StorageAccess.jsx",
+      "src/ui/Home.jsx",
+      "src/ui/LanguageSelector.jsx",
+      "src/i18n/index.js",
     ],
     languageOptions: {
       ecmaVersion: "latest",
@@ -21,7 +24,7 @@ export default [
     },
     rules: {
       "no-undef": "error",
-      "no-unused-vars": "error",
+      "no-unused-vars": ["error", { varsIgnorePattern: "^React$" }],
     },
   },
 ];

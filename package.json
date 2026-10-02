@@ -8,8 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "validate:i18n": "node scripts/validate-i18n.mjs",
+    "check:i18n:missing": "node scripts/check-missing-core-translations.mjs",
     "test": "vitest run",
-    "lint": "eslint eslint.config.js vite.config.js src/main.jsx src/pwa.js src/storage/StorageAccess.jsx",
+    "lint": "eslint eslint.config.js vite.config.js src/main.jsx src/pwa.js src/storage/StorageAccess.jsx src/ui/Home.jsx src/ui/LanguageSelector.jsx src/i18n/index.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

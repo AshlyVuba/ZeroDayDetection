@@ -8,8 +8,8 @@ describe("Home screen", () => {
     const markup = renderToStaticMarkup(<Home />);
 
     expect(markup).toContain("ZeroDay Detection");
-    expect(markup).toContain('aria-label="Language: English"');
-    expect(markup).toContain("English");
+    expect(markup).toContain('id="language-selector"');
+    expect(markup).toContain("English — Beta");
   });
 
   it("shows both actions as unavailable instead of implying checks run", () => {

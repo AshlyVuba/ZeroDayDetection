@@ -1,0 +1,50 @@
+name: Bug report
+description: Report a problem in ZeroDay Detection
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the actions needed to reproduce the problem. Use invented data only; do not include real messages or personal information.
+      placeholder: "1. Open the app\n2. ..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and OS
+      description: Include phone model, OS version, and app/build version if known.
+      placeholder: "e.g. Android phone, Android 15, app build ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Blocker
+        - Major
+        - Minor
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot or recording
+      description: Attach only if useful. Use invented data and remove personal information before uploading.
+    validations:
+      required: false
