@@ -1,0 +1,91 @@
+{
+  "band": {
+    "low": "Dalili chache zimesababisha wasiwasi",
+    "medium": "Baadhi ya dalili zimesababisha wasiwasi",
+    "high": "Dalili kadhaa zimesababisha wasiwasi"
+  },
+  "reason": {
+    "CREDENTIAL_REQUEST": "Ujumbe huu unaomba taarifa zako za siri za kuingia kwenye akaunti.",
+    "CREATE_ORDER_FOR_THEM": "Mtu anataka uweke oda kwa niaba yake.",
+    "UPFRONT_FEE": "Unaombwa ulipe kabla ya kupokea ulichoahidiwa.",
+    "ROMANCE_MONEY": "Mtu uliyekutana naye mtandaoni anakuomba pesa.",
+    "MONEY_REVERSAL": "Mtumaji anakuomba urudishe pesa baada ya malipo.",
+    "PRIZE_WIN": "Ujumbe unasema umeshinda kitu ambacho hukushiriki kukipata.",
+    "LOOKALIKE_LINK": "Kiungo hiki kinaweza kukupeleka kwenye tovuti iliyonakiliwa.",
+    "SECRECY": "Unaombwa usimweleze mtu mwingine kuhusu ombi hili.",
+    "TOO_GOOD_PAY": "Malipo yaliyoahidiwa yanaonekana kuwa makubwa kupita kiasi kwa kazi hii.",
+    "IMPERSONATION": "Mtumaji anadai kuwa mtu unayeweza kumfahamu.",
+    "RISKY_PAYMENT_METHOD": "Huenda ikawa vigumu kubatilisha njia ya malipo iliyoombwa.",
+    "SHORTENED_LINK": "Kiungo hiki kifupi kinaficha anwani ya tovuti.",
+    "URGENCY": "Ujumbe unakushinikiza uchukue hatua mara moja.",
+    "OFF_PLATFORM": "Mtumaji anakuomba muendelee nje ya huduma hii.",
+    "RECENT_RISKY_MESSAGE": "Ujumbe wa hivi karibuni umeibua wasiwasi kuhusu malipo haya.",
+    "AMOUNT_SPIKE": "Malipo haya ni makubwa kuliko malipo yako ya kawaida.",
+    "RAPID_REPEAT": "Umemlipa mtu huyu mara kadhaa kwa muda mfupi.",
+    "NEW_RECIPIENT": "Hujawahi kumlipa mpokeaji huyu.",
+    "FIRST_LARGE": "Hii ni mara yako ya kwanza kulipa kiasi kikubwa hivi.",
+    "FEE_LIKE_AMOUNT": "Kiasi hiki kinafanana na ada inayotumiwa mara nyingi katika ulaghai.",
+    "ODD_HOUR": "Malipo haya yanafanyika wakati usio wa kawaida kwako."
+  },
+  "steps": {
+    "job_scam": [
+      "Subiri kidogo kabla ya kulipia kazi au mafunzo.",
+      "Chunguza kampuni na nafasi hiyo kwa kutumia chanzo utakachopata mwenyewe.",
+      "Mwombe mtu unayemwamini aangalie ofa hiyo."
+    ],
+    "phishing": [
+      "Usitumie kiungo kilicho kwenye ujumbe.",
+      "Fungua huduma kwa kutumia programu au anwani unayoijua tayari.",
+      "Badilisha nenosiri lako ikiwa ulilishiriki."
+    ],
+    "romance_scam": [
+      "Usitume pesa au kadi za zawadi kwa mtu ambaye hujakutana naye.",
+      "Chukua muda kuchunguza simulizi lake pamoja na mtu unayemwamini."
+    ],
+    "mobile_money_reversal": [
+      "Angalia salio lako kwenye programu ya malipo.",
+      "Usirudishe pesa kwa kutegemea ujumbe pekee.",
+      "Wasiliana na mtoa huduma wako wa malipo kupitia programu yake au taarifa ya akaunti."
+    ],
+    "prize_scam": [
+      "Usilipe ada ili kudai zawadi.",
+      "Angalia kama uliingia kwenye shindano hilo.",
+      "Mwombe mtu unayemwamini ushauri kabla ya kushiriki taarifa."
+    ],
+    "impersonation": [
+      "Wasiliana na mtu huyo kwa nambari au programu ambayo tayari unayo.",
+      "Usitume pesa au misimbo hadi uthibitishe utambulisho wake.",
+      "Mwombe mtu unayemwamini aangalie ombi hilo."
+    ],
+    "mule_request": [
+      "Usipokee au kuhamisha pesa kwa niaba ya mtu mwingine.",
+      "Usishiriki taarifa za akaunti au malipo yako.",
+      "Ikiwa tayari ulihamisha pesa, wasiliana na benki yako kupitia programu yake au nambari iliyo kwenye kadi yako."
+    ]
+  },
+  "ui": {
+    "appName": "ZeroDay Detection",
+    "messageTab": "Kagua ujumbe",
+    "paymentTab": "Kagua malipo",
+    "messageLabel": "Maandishi ya ujumbe",
+    "messagePlaceholder": "Bandika ujumbe hapa",
+    "paymentAmountLabel": "Kiasi cha malipo",
+    "recipientLabel": "Mpokeaji",
+    "checkButton": "Kagua sasa",
+    "checking": "Inakagua...",
+    "resultTitle": "Tulichoona",
+    "reasonsTitle": "Sababu ya kuashiriwa",
+    "stepsTitle": "Unachoweza kufanya",
+    "dismissButton": "Funga",
+    "privacyNote": "Ujumbe wako unabaki kwenye kifaa hiki."
+  },
+  "errors": {
+    "loadFailed": "Imeshindikana kupakia taarifa hii. Jaribu tena.",
+    "analysisFailed": "Imeshindikana kukagua ujumbe huu. Tafadhali jaribu tena.",
+    "emptyMessage": "Weka ujumbe wa kukagua.",
+    "invalidAmount": "Weka kiasi cha malipo kilicho zaidi ya sifuri.",
+    "offline": "Inaonekana hujaunganishwa kwenye intaneti. Jaribu tena ukiwa umeunganishwa.",
+    "saveFailed": "Imeshindikana kuhifadhi mpangilio huu.",
+    "unknown": "Hitilafu imetokea. Jaribu tena."
+  }
+}

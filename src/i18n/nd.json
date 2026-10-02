@@ -1,0 +1,91 @@
+{
+  "band": {
+    "low": "Izibonakaliso ezilutshwana zibange ukukhathazeka",
+    "medium": "Ezinye izibonakaliso zibange ukukhathazeka",
+    "high": "Izibonakaliso ezinengi zibange ukukhathazeka"
+  },
+  "reason": {
+    "CREDENTIAL_REQUEST": "Umlayezo lo ucela imininingwane yakho yangasese yokungena ku-akhawunti.",
+    "CREATE_ORDER_FOR_THEM": "Omunye ufuna ukuthi umenzele i-oda esebenzisa ibizo lakhe.",
+    "UPFRONT_FEE": "Ucelwa ukuthi ubhadale ungakatholi lokho owathenjiswa khona.",
+    "ROMANCE_MONEY": "Omunye owahlangana laye ku-inthanethi ucela imali kuwe.",
+    "MONEY_REVERSAL": "Umthumeli wemali ukucela ukuthi uyibuyisele.",
+    "PRIZE_WIN": "Umlayezo uthi unqobile okuthile ongazange ungenele khona.",
+    "LOOKALIKE_LINK": "Isixhumanisi lesi singakusa kuwebhusayithi ekopishiweyo.",
+    "SECRECY": "Ucelwa ukuthi ungatsheli abanye ngalesisicelo.",
+    "TOO_GOOD_PAY": "Umholo othenjisiweyo ukhanya uphezulu kakhulu ngomsebenzi lo.",
+    "IMPERSONATION": "Umthumeli uthi ungumuntu ongabe umaziyo.",
+    "RISKY_PAYMENT_METHOD": "Indlela yokubhadala eceliweyo ingaba nzima ukuyibuyisela emuva.",
+    "SHORTENED_LINK": "Isixhumanisi esifinyeziweyo lesi sifihla ikheli lewebhusayithi.",
+    "URGENCY": "Umlayezo uyakucindezela ukuthi wenze masinyane.",
+    "OFF_PLATFORM": "Umthumeli ufuna liqhubeke ngaphandle kwesevisi le.",
+    "RECENT_RISKY_MESSAGE": "Umlayezo wakamuva ubange ukukhathazeka ngokubhadala lokhu.",
+    "AMOUNT_SPIKE": "Imali le inkulu kulaleyo ojayele ukuyibhadala.",
+    "RAPID_REPEAT": "Ubhadale lo muntu kanengi ngesikhathi esifitshane.",
+    "NEW_RECIPIENT": "Awukaze ubhadale lo owemukela imali.",
+    "FIRST_LARGE": "Leli yibhadalo lakho lokuqala elikhulu kangaka.",
+    "FEE_LIKE_AMOUNT": "Inani leli lifana lemali ejayele ukusetshenziswa emikhonyovwini.",
+    "ODD_HOUR": "Ubhadala ngesikhathi esingajayelekanga kuwe."
+  },
+  "steps": {
+    "job_scam": [
+      "Yima kancane ungakabhadali ngomsebenzi kumbe ukuqeqetshwa.",
+      "Hlola inkampani lomsebenzi ngomthombo ozikhethela wona.",
+      "Cela umuntu omthembayo ukuthi ahlole isithembiso somsebenzi."
+    ],
+    "phishing": [
+      "Ungasebenzisi isixhumanisi esisemlayezweni.",
+      "Vula isevisi usebenzisa i-app kumbe ikheli osulaziyo.",
+      "Guqula i-password yakho nxa uyabelane ngayo."
+    ],
+    "romance_scam": [
+      "Ungathumeli imali kumbe amakhadi ezipho kumuntu ongakahlangani laye.",
+      "Thatha isikhathi uhlole indaba yakhe lomuntu omthembayo."
+    ],
+    "mobile_money_reversal": [
+      "Hlola ibhalansi yakho ku-app yokubhadala.",
+      "Ungabuyiseli imali ngenxa yomlayezo kuphela.",
+      "Xhumana lomnikezeli wakho wokubhadala nge-app yakhe kumbe ngesitatimende."
+    ],
+    "prize_scam": [
+      "Ungabhadali imali ukuze uthole umvuzo.",
+      "Hlola ukuthi wangena yini emncintiswaneni lo.",
+      "Cela umuntu omthembayo ungakabelani ngemininingwane."
+    ],
+    "impersonation": [
+      "Xhumana lalowo muntu ngenombolo kumbe nge-app osulayo.",
+      "Ungathumeli imali kumbe amakhodi ungakaqiniseki.",
+      "Cela umuntu omthembayo ukuthi ahlole isicelo lesi."
+    ],
+    "mule_request": [
+      "Ungamukeli kumbe uthumele imali yomunye umuntu.",
+      "Ungabelani ngemininingwane ye-akhawunti yakho kumbe yokubhadala.",
+      "Nxa usuthumele imali, xhumana lebhanga lakho nge-app yalo kumbe ngenombolo esekhadini lakho."
+    ]
+  },
+  "ui": {
+    "appName": "ZeroDay Detection",
+    "messageTab": "Hlola umlayezo",
+    "paymentTab": "Hlola ibhadalo",
+    "messageLabel": "Umbhalo womlayezo",
+    "messagePlaceholder": "Namathelisa umlayezo lapha",
+    "paymentAmountLabel": "Imali yebhadalo",
+    "recipientLabel": "Owemukela imali",
+    "checkButton": "Hlola khathesi",
+    "checking": "Kuyahlolwa...",
+    "resultTitle": "Esikubonileyo",
+    "reasonsTitle": "Okwenze ukuthi kukhethwe",
+    "stepsTitle": "Ongakwenza",
+    "dismissButton": "Vala",
+    "privacyNote": "Umlayezo wakho uhlala kule divayisi."
+  },
+  "errors": {
+    "loadFailed": "Sehlulekile ukufaka ulwazi lolu. Zama futhi.",
+    "analysisFailed": "Sehlulekile ukuhlola umlayezo lo. Sicela uzame futhi.",
+    "emptyMessage": "Faka umlayezo ozawuhlola.",
+    "invalidAmount": "Faka imali yebhadalo engaphezu kuka-zero.",
+    "offline": "Kukhanya angathi awuxhunyiwe ku-inthanethi. Zama futhi usuxhunyiwe.",
+    "saveFailed": "Sehlulekile ukugcina isilungiselelo lesi.",
+    "unknown": "Kukhona okungahambanga kuhle. Zama futhi."
+  }
+}

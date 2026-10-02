@@ -1,0 +1,91 @@
+{
+  "band": {
+    "low": "Poucos sinais causaram preocupação",
+    "medium": "Alguns sinais causaram preocupação",
+    "high": "Vários sinais causaram preocupação"
+  },
+  "reason": {
+    "CREDENTIAL_REQUEST": "Esta mensagem pede dados privados para iniciar sessão.",
+    "CREATE_ORDER_FOR_THEM": "Alguém quer que faça uma encomenda em seu nome.",
+    "UPFRONT_FEE": "Pedem-lhe que pague antes de receber o que foi prometido.",
+    "ROMANCE_MONEY": "Alguém que conheceu online está a pedir-lhe dinheiro.",
+    "MONEY_REVERSAL": "Quem enviou o dinheiro pede-lhe que o devolva.",
+    "PRIZE_WIN": "A mensagem diz que ganhou algo em que não participou.",
+    "LOOKALIKE_LINK": "Este link pode levar a um site copiado.",
+    "SECRECY": "Pedem-lhe que não conte a outras pessoas sobre este pedido.",
+    "TOO_GOOD_PAY": "O pagamento prometido parece demasiado alto para este trabalho.",
+    "IMPERSONATION": "A pessoa que enviou a mensagem diz ser alguém que talvez conheça.",
+    "RISKY_PAYMENT_METHOD": "Pode ser difícil reverter o método de pagamento pedido.",
+    "SHORTENED_LINK": "Este link encurtado esconde o endereço do site.",
+    "URGENCY": "A mensagem pressiona-o a agir imediatamente.",
+    "OFF_PLATFORM": "A pessoa pede-lhe que continuem fora deste serviço.",
+    "RECENT_RISKY_MESSAGE": "Uma mensagem recente levantou dúvidas sobre este pagamento.",
+    "AMOUNT_SPIKE": "Este pagamento é superior ao que costuma fazer.",
+    "RAPID_REPEAT": "Fez vários pagamentos a esta pessoa num curto espaço de tempo.",
+    "NEW_RECIPIENT": "Nunca pagou a este destinatário.",
+    "FIRST_LARGE": "É a primeira vez que faz um pagamento deste valor.",
+    "FEE_LIKE_AMOUNT": "O valor parece uma taxa frequentemente usada em burlas.",
+    "ODD_HOUR": "Este pagamento está a ser feito numa hora invulgar para si."
+  },
+  "steps": {
+    "job_scam": [
+      "Faça uma pausa antes de pagar por um emprego ou formação.",
+      "Verifique a empresa e a função através de uma fonte que encontre por si.",
+      "Peça a alguém de confiança que analise a oferta."
+    ],
+    "phishing": [
+      "Não use o link da mensagem.",
+      "Aceda ao serviço através de uma aplicação ou endereço que já conhece.",
+      "Altere a sua palavra-passe se a partilhou."
+    ],
+    "romance_scam": [
+      "Não envie dinheiro nem cartões-presente a alguém que ainda não conheceu pessoalmente.",
+      "Tire algum tempo para confirmar a história dessa pessoa com alguém de confiança."
+    ],
+    "mobile_money_reversal": [
+      "Consulte o seu saldo na aplicação de pagamento.",
+      "Não devolva dinheiro com base apenas numa mensagem.",
+      "Contacte o seu prestador de pagamentos através da aplicação ou de um extrato."
+    ],
+    "prize_scam": [
+      "Não pague uma taxa para reclamar um prémio.",
+      "Confirme se participou no concurso.",
+      "Peça opinião a alguém de confiança antes de partilhar dados."
+    ],
+    "impersonation": [
+      "Contacte a pessoa através de um número ou aplicação que já tenha.",
+      "Não envie dinheiro nem códigos até confirmar a identidade.",
+      "Peça a alguém de confiança que analise o pedido."
+    ],
+    "mule_request": [
+      "Não receba nem transfira dinheiro por outra pessoa.",
+      "Não partilhe os dados da sua conta nem de pagamento.",
+      "Se já transferiu dinheiro, contacte o seu banco pela aplicação ou por um número indicado no cartão."
+    ]
+  },
+  "ui": {
+    "appName": "ZeroDay Detection",
+    "messageTab": "Verificar uma mensagem",
+    "paymentTab": "Verificar um pagamento",
+    "messageLabel": "Texto da mensagem",
+    "messagePlaceholder": "Cole uma mensagem aqui",
+    "paymentAmountLabel": "Montante do pagamento",
+    "recipientLabel": "Destinatário",
+    "checkButton": "Verificar agora",
+    "checking": "A verificar...",
+    "resultTitle": "O que notámos",
+    "reasonsTitle": "Motivo do alerta",
+    "stepsTitle": "O que pode fazer",
+    "dismissButton": "Fechar",
+    "privacyNote": "A sua mensagem permanece neste dispositivo."
+  },
+  "errors": {
+    "loadFailed": "Não foi possível carregar esta informação. Tente novamente.",
+    "analysisFailed": "Não foi possível verificar esta mensagem. Tente novamente.",
+    "emptyMessage": "Introduza uma mensagem para verificar.",
+    "invalidAmount": "Introduza um montante de pagamento superior a zero.",
+    "offline": "Parece não ter ligação à Internet. Tente novamente quando estiver ligado.",
+    "saveFailed": "Não foi possível guardar esta definição.",
+    "unknown": "Ocorreu um erro. Tente novamente."
+  }
+}

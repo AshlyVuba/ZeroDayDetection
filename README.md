@@ -29,6 +29,9 @@ scripts for local development and verification.
 - An explanation entry point that returns a fixed placeholder explanation and
   general next step.
 - Three Vitest checks for those scaffold contracts.
+- Machine-assisted Shona, Northern Ndebele, isiZulu, Portuguese, and Swahili
+  translation drafts. They are unreviewed Draft/Beta content, not final
+  translations or production-ready.
 - Local development, test, lint, type-check, and production-build scripts.
 
 ### Planned, not implemented
@@ -42,11 +45,14 @@ scripts for local development and verification.
 - Local encrypted storage, with privacy-preserving handling of any user data.
 - A complete application UI and production release.
 
-The language codes currently exist as a shared type only; translated interface
-content is not present. PWA and IndexedDB-related dependencies are reserved for
-future work; offline support and encrypted storage are not configured or
-implemented. There is no working detection engine, backend, deployed service, or
-completed user flow yet.
+The translation catalogs are not connected to an application language picker.
+Their machine-readable Draft/Beta status is available in
+`src/i18n/review-status.json` for subsequent integration. A named fluent
+reviewer must read each locale aloud, correct it, and verify text fit at 360px
+before beta status is removed; English remains the fallback. PWA and
+IndexedDB-related dependencies are reserved for future work; offline support and
+encrypted storage are not configured or implemented. There is no working
+detection engine, backend, deployed service, or completed user flow yet.
 
 ## Prerequisites
 
@@ -100,6 +106,7 @@ clean, reproducible dependency install.
 | `npm test` | Run the Vitest suite once. Current tests cover scaffold behavior, not scam-detection accuracy. |
 | `npm run lint` | Lint the ESLint and Vite configuration files. |
 | `npm run typecheck` | Type-check the engine and test TypeScript files without emitting output. |
+| `npm run validate:i18n` | Check locale key/nested-shape parity and ensure review gates remain marked pending. |
 | `npm run build` | Build the static production bundle into `dist/`. |
 | `npm run preview` | Serve the last production build locally; run `npm run build` first. |
 
@@ -114,7 +121,7 @@ clean, reproducible dependency install.
 ├── src/
 │   ├── data/                  # Reserved for scam education content
 │   ├── engine/                # Shared types and analyzer/explanation stubs
-│   ├── i18n/                  # Reserved for localized interface strings
+│   ├── i18n/                  # English source, beta drafts, and review status
 │   ├── storage/               # Reserved for local storage helpers
 │   ├── ui/                    # Reserved for application screens
 │   └── main.jsx               # Current placeholder application
