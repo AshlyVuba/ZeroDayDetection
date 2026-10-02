@@ -5,6 +5,7 @@ export default [
       "vite.config.js",
       "src/main.jsx",
       "src/pwa.js",
+      "src/storage/StorageAccess.jsx",
       "src/ui/Home.jsx",
       "src/ui/LanguageSelector.jsx",
       "src/i18n/index.js",

@@ -32,8 +32,26 @@ export class EncryptedStorageCrypto {
   #lockTimer: ReturnType<typeof setTimeout> | undefined;
   #failedAttempts = 0;
   #blockedUntil = 0;
+  #lockListeners = new Set<() => void>();
 
   constructor(private readonly provider: CryptoProvider = browserCryptoProvider) {}
+
+  get isUnlocked(): boolean {
+    if (
+      this.#activeKey === undefined ||
+      this.#salt === undefined ||
+      Date.now() - this.#lastActivity >= STORAGE_IDLE_TIMEOUT_MS
+    ) {
+      this.lock();
+      return false;
+    }
+    return true;
+  }
+
+  onLock(listener: () => void): () => void {
+    this.#lockListeners.add(listener);
+    return () => this.#lockListeners.delete(listener);
+  }
 
   async initialize(pin: string, initialValue: string): Promise<EncryptedPayload> {
     this.lock();
@@ -114,6 +132,9 @@ export class EncryptedStorageCrypto {
     this.#activeKey = undefined;
     this.#salt = undefined;
     this.#lastActivity = 0;
+    for (const listener of this.#lockListeners) {
+      listener();
+    }
   }
 
   private async deriveKey(pin: string, salt: CryptoBytes): Promise<CryptoKey> {
